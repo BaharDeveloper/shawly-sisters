@@ -3,8 +3,8 @@
     "id": "p_pashmina",
     "name": "Pashmina Şal Hediyelik",
     "category": "Düğün Hediyelikleri",
-    "price": 0,
-    "description": "Düğün, nişan ve özel davetler için şık pashmina şal hediyelikleri. Yumuşak dokulu, sıcak tutan, zarif tasarım. 28 farklı renk seçeneği. Kişiye özel kurdele ve etiket eklenebilir.\n\nÖzellikler:\n• Premium pashmina kumaş\n• 70 x 180 cm boyut\n• El ile dikilmiş püsküller\n• Kişiselleştirilebilir etiket\n• Hediye paketleme dahil",
+    "price": 240,
+    "description": "Düğün, nişan ve özel davetler için şık pashmina şal hediyelikleri. Yumuşak dokulu, sıcak tutan, zarif tasarım. 28 farklı renk seçeneği. Kişiye özel kurdele ve etiket eklenebilir.\n\nÖzellikler:\n• Premium pashmina kumaş, 170 x 70 cm\n• Yumuşak ve hafif dokulu\n• El ile dikilmiş püsküller\n• Kişiselleştirilebilir kağıt etiket\n• Hediye paketleme dahil\n\nFiyatlar Amazon listing fiyatımızdan dönüştürülmüştür ($1 ≈ ₺40).",
     "images": [
       "urunler/pashmina/1.jpg",
       "urunler/pashmina/2.jpg",
@@ -14,14 +14,15 @@
     ],
     "amazonUrl": "https://www.amazon.com/stores/ShawlySisters/page/7D684352-F15A-429D-9732-9E5904129751",
     "bundles": [
-      { "id": "bndl_pash_25", "label": "25 Adet", "qty": 25, "price": 3750 },
-      { "id": "bndl_pash_50", "label": "50 Adet", "qty": 50, "price": 7000 },
-      { "id": "bndl_pash_100", "label": "100 Adet", "qty": 100, "price": 13000 }
+      { "id": "bndl_pash_1", "label": "1 Adet (Tekli)", "qty": 1, "price": 240 },
+      { "id": "bndl_pash_25", "label": "25 Adet (Bulk)", "qty": 25, "price": 4800 },
+      { "id": "bndl_pash_50", "label": "50 Adet", "qty": 50, "price": 9200 },
+      { "id": "bndl_pash_100", "label": "100 Adet", "qty": 100, "price": 17500 }
     ],
     "variations": [
       {
         "name": "Renk",
-        "options": ["Ivory", "Pink", "Pale Pink", "Hot Pink", "Gold", "Cream", "Brown", "Mocha", "Burgundy", "Burnt Orange", "Navy", "Blue", "Baby Blue", "Army Green", "Forest Green", "Green", "Lilac", "Gray", "Light Gray", "Dark Gray"]
+        "options": ["Ivory", "White", "Cream", "Pink", "Pale Pink", "Hot Pink", "Rose Gold", "Gold", "Brown", "Mocha", "Taupe", "Burgundy", "Burnt Orange", "Red", "Navy", "Royal Blue", "Blue", "Baby Blue", "Teal", "Turquoise", "Army Green", "Forest Green", "Green", "Lilac", "Purple", "Black", "Gray", "Light Gray", "Dark Gray"]
       }
     ]
   },
@@ -29,8 +30,8 @@
     "id": "p_sabun_renkli",
     "name": "Renkli Doğal Sabun - Kraft Etiket",
     "category": "Düğün Hediyelikleri",
-    "price": 0,
-    "description": "Düğün, nişan ve baby shower için doğal sabun hediyelikleri. Kraft etiketli, kişiye özel tasarım.\n\nKoku Seçenekleri:\n• Hammam · Lavender · Ocean · Olive Oil · Pine · Strawberry · Cammomile · Donkey Milk\n\nÖzellikler:\n• %100 doğal içerikli sabun\n• Yaklaşık 30 gr birim ağırlık\n• Kişiselleştirilebilir kraft etiket\n• Şeffaf ambalaj ile sunum",
+    "price": 100,
+    "description": "Düğün, nişan ve baby shower için doğal sabun hediyelikleri. Kraft etiketli, kişiye özel tasarım. Kalp ve çiçek figürleri.\n\nKoku Seçenekleri:\n• Hammam · Lavender · Ocean · Olive Oil · Pine · Strawberry · Cammomile · Donkey Milk\n\nÖzellikler:\n• %100 doğal içerikli sabun\n• Yaklaşık 30 gr birim ağırlık\n• Estetik kalp ve çiçek tasarımları\n• Kişiselleştirilebilir kraft etiket\n• Şeffaf ambalaj ile sunum",
     "images": [
       "urunler/sabun-renkli/1.jpg",
       "urunler/sabun-renkli/2.jpg",
@@ -40,9 +41,10 @@
     ],
     "amazonUrl": "https://www.amazon.com/stores/ShawlySisters/page/7D684352-F15A-429D-9732-9E5904129751",
     "bundles": [
-      { "id": "bndl_srnk_25", "label": "25 Adet", "qty": 25, "price": 1500 },
-      { "id": "bndl_srnk_50", "label": "50 Adet", "qty": 50, "price": 2800 },
-      { "id": "bndl_srnk_100", "label": "100 Adet", "qty": 100, "price": 5200 }
+      { "id": "bndl_srnk_1", "label": "1 Adet (Tekli)", "qty": 1, "price": 100 },
+      { "id": "bndl_srnk_25", "label": "25 Adet", "qty": 25, "price": 2500 },
+      { "id": "bndl_srnk_50", "label": "50 Adet", "qty": 50, "price": 4800 },
+      { "id": "bndl_srnk_100", "label": "100 Adet", "qty": 100, "price": 9200 }
     ],
     "variations": [
       {
@@ -55,8 +57,8 @@
     "id": "p_sabun_tirikli",
     "name": "Tırtıklı Sabun - Kraft Etiket",
     "category": "Düğün Hediyelikleri",
-    "price": 0,
-    "description": "Tırtıklı kenarlı, zarif tasarımlı doğal sabun hediyelikleri. Düğün ve özel günler için ideal.\n\nÖzellikler:\n• Tırtıklı kenar tasarımı\n• Kraft etiketli kişiselleştirme\n• Doğal içerikli sabun\n• Şeffaf hediye paketi\n• Çoklu koku seçeneği",
+    "price": 75,
+    "description": "Tırtıklı kenarlı, zarif tasarımlı doğal sabun hediyelikleri. Düğün, nişan, baby shower ve vaftiz için ideal.\n\nÖzellikler:\n• Boyut: 7.5 x 4.4 x 0.7 cm\n• Hediye kutusu: 8 x 2 x 5 cm\n• Tırtıklı kenar tasarımı\n• Kraft etiketli kişiselleştirme\n• Doğal esansiyel yağlar ile hafif kokulu\n• Cilt dostu içerikler\n• Sürdürülebilir ambalaj",
     "images": [
       "urunler/sabun-tirikli/1.jpg",
       "urunler/sabun-tirikli/2.jpg",
@@ -65,14 +67,15 @@
     ],
     "amazonUrl": "https://www.amazon.com/stores/ShawlySisters/page/7D684352-F15A-429D-9732-9E5904129751",
     "bundles": [
-      { "id": "bndl_strk_25", "label": "25 Adet", "qty": 25, "price": 1750 },
-      { "id": "bndl_strk_50", "label": "50 Adet", "qty": 50, "price": 3300 },
-      { "id": "bndl_strk_100", "label": "100 Adet", "qty": 100, "price": 6000 }
+      { "id": "bndl_strk_1", "label": "1 Adet (Tekli)", "qty": 1, "price": 75 },
+      { "id": "bndl_strk_25", "label": "25 Adet", "qty": 25, "price": 1900 },
+      { "id": "bndl_strk_50", "label": "50 Adet", "qty": 50, "price": 3700 },
+      { "id": "bndl_strk_100", "label": "100 Adet", "qty": 100, "price": 7100 }
     ],
     "variations": [
       {
         "name": "Renk",
-        "options": ["Beyaz", "Krem", "Pembe", "Mavi", "Lavanta"]
+        "options": ["Beyaz", "Krem", "Pembe", "Mavi", "Lavanta", "Yeşil"]
       }
     ]
   },
@@ -80,7 +83,7 @@
     "id": "p_silindir_mum",
     "name": "Silindir Doğal Mum - Yapay Çiçek Süslemeli",
     "category": "Düğün Hediyelikleri",
-    "price": 0,
+    "price": 100,
     "description": "Silindir formda, doğal soya mumu üzerine zarif yapay çiçek süslemeleri. Düğün ve nişan masaları için şık bir hediyelik.\n\nÖzellikler:\n• Doğal soya mumu\n• El ile yerleştirilmiş yapay çiçek süslemeleri\n• Yaklaşık 8 cm yükseklik\n• Tek renkli ve karma renk seçenekleri\n• Şeffaf ambalaj ile teslim",
     "images": [
       "urunler/silindir-mum/1.jpg",
@@ -91,9 +94,10 @@
     ],
     "amazonUrl": "https://www.amazon.com/stores/ShawlySisters/page/7D684352-F15A-429D-9732-9E5904129751",
     "bundles": [
+      { "id": "bndl_sil_10", "label": "10 Adet", "qty": 10, "price": 1000 },
       { "id": "bndl_sil_25", "label": "25 Adet", "qty": 25, "price": 2500 },
-      { "id": "bndl_sil_50", "label": "50 Adet", "qty": 50, "price": 4750 },
-      { "id": "bndl_sil_100", "label": "100 Adet", "qty": 100, "price": 9000 }
+      { "id": "bndl_sil_50", "label": "50 Adet", "qty": 50, "price": 4800 },
+      { "id": "bndl_sil_100", "label": "100 Adet", "qty": 100, "price": 9200 }
     ],
     "variations": [
       {
@@ -106,8 +110,8 @@
     "id": "p_wedding_mumluk",
     "name": "El Yapımı Ahşap Mumluk - Düğün",
     "category": "Düğün Hediyelikleri",
-    "price": 0,
-    "description": "El yapımı ahşap tealight mumluk. Düğün masaları ve hediyelik için ideal. Doğal ahşap dokusu ve özenli işçilik.\n\nÖzellikler:\n• %100 doğal ahşap\n• Tealight (küçük) mum uyumlu\n• Birden fazla renk seçeneği (doğal, yeşil, sarı, vb.)\n• Kartela ile renk seçimi\n• Kişiselleştirilebilir lazer kazıma",
+    "price": 110,
+    "description": "El yapımı ahşap tealight mumluk. Silindirik form, üç oval oluk, boyalı ahşap finiş. Düğün masaları ve hediyelik için ideal.\n\nÖzellikler:\n• %100 doğal sert ahşap, el yapımı\n• Tealight (küçük) mum uyumlu\n• Üç oluklu silindirik tasarım\n• Yapay çiçek ve elastik detaylar\n• Birden fazla renk seçeneği\n• Kişiselleştirilebilir lazer kazıma\n• Jüt iple sarılmış zarif paketleme",
     "images": [
       "urunler/wedding-mumluk/1.jpg",
       "urunler/wedding-mumluk/2.jpg",
@@ -116,14 +120,16 @@
     ],
     "amazonUrl": "https://www.amazon.com/stores/ShawlySisters/page/7D684352-F15A-429D-9732-9E5904129751",
     "bundles": [
-      { "id": "bndl_wm_25", "label": "25 Adet", "qty": 25, "price": 2200 },
-      { "id": "bndl_wm_50", "label": "50 Adet", "qty": 50, "price": 4200 },
-      { "id": "bndl_wm_100", "label": "100 Adet", "qty": 100, "price": 8000 }
+      { "id": "bndl_wm_1", "label": "1 Adet (Tekli)", "qty": 1, "price": 110 },
+      { "id": "bndl_wm_20", "label": "20 Adet (Heart Shape)", "qty": 20, "price": 2200 },
+      { "id": "bndl_wm_25", "label": "25 Adet", "qty": 25, "price": 2800 },
+      { "id": "bndl_wm_50", "label": "50 Adet", "qty": 50, "price": 5400 },
+      { "id": "bndl_wm_100", "label": "100 Adet", "qty": 100, "price": 10400 }
     ],
     "variations": [
       {
         "name": "Renk",
-        "options": ["Doğal Ahşap", "Yeşil", "Sarı", "Beyaz", "Gri", "Kahverengi"]
+        "options": ["Doğal Ahşap", "Yeşil", "Sarı", "Beyaz", "Gri", "Kahverengi", "Pembe", "Krem", "Gold", "Gümüş"]
       }
     ]
   },
@@ -131,8 +137,8 @@
     "id": "p_yelpaze",
     "name": "Çiçekli Düğün Yelpazesi",
     "category": "Düğün Hediyelikleri",
-    "price": 0,
-    "description": "Yaz düğünleri için ideal, çiçek desenli el yelpazeleri. Misafirler için şık ve fonksiyonel hediyelik.\n\nÖzellikler:\n• Yüksek kaliteli kağıt yelpaze\n• Ahşap saplı\n• Çoklu çiçek deseni seçeneği\n• Kişiye özel etiket eklenebilir\n• Açıldığında geniş yüzey",
+    "price": 100,
+    "description": "Yaz düğünleri için ideal, doğal ahşap el yelpazeleri. Pembe çiçek baskı ile zarif tasarım. Misafirler için hem dekoratif hem fonksiyonel hediyelik.\n\nÖzellikler:\n• Doğal ahşap, pürüzsüz finiş\n• Vintage pembe çiçek baskısı\n• 20 cm uzunluk (kapalı)\n• Lazer kazıma ile kişiselleştirme\n• Ahşap saplı katlanır tasarım\n• Boho, rustik ve plaj düğünleri için ideal",
     "images": [
       "urunler/yelpaze/1.jpg",
       "urunler/yelpaze/2.jpg",
@@ -141,23 +147,24 @@
     ],
     "amazonUrl": "https://www.amazon.com/stores/ShawlySisters/page/7D684352-F15A-429D-9732-9E5904129751",
     "bundles": [
-      { "id": "bndl_yp_25", "label": "25 Adet", "qty": 25, "price": 1800 },
-      { "id": "bndl_yp_50", "label": "50 Adet", "qty": 50, "price": 3400 },
-      { "id": "bndl_yp_100", "label": "100 Adet", "qty": 100, "price": 6500 }
+      { "id": "bndl_yp_1", "label": "1 Adet (Tekli)", "qty": 1, "price": 100 },
+      { "id": "bndl_yp_25", "label": "25 Adet", "qty": 25, "price": 2500 },
+      { "id": "bndl_yp_50", "label": "50 Adet", "qty": 50, "price": 4800 },
+      { "id": "bndl_yp_100", "label": "100 Adet", "qty": 100, "price": 9200 }
     ],
     "variations": [
       {
         "name": "Desen",
-        "options": ["Beyaz Çiçek", "Pembe Çiçek", "Karışık", "Sarı Çiçek"]
+        "options": ["Pembe Çiçek", "Beyaz Çiçek", "Karışık", "Sarı Çiçek"]
       }
     ]
   },
   {
     "id": "p_cikolata",
-    "name": "Kişiselleştirilmiş Çikolata - Hediye Kutu",
+    "name": "Kişiselleştirilmiş Çikolata - Hediye Kutusu (Keepsake)",
     "category": "Düğün Hediyelikleri",
     "price": 0,
-    "description": "Kişiye özel baskılı, premium kalitede sütlü çikolata hediyelikleri.\n\nÖzellikler:\n• Birim Ağırlık: 7 gr\n• Boyut: 4 x 4 cm\n• Çikolata Çeşidi: Sütlü Çikolata\n• Baskı: Tam Renkli, Kişiye Özel\n• Raf Ömrü: Oda sıcaklığında 12 ay\n• Gold ve Gümüş folyo seçenekleri",
+    "description": "Premium sütlü çikolata + zarif metal kutu. Tam renkli kişiselleştirilebilir çikolata baskısı ve özel isim/tarih basılı kutu kapağı.\n\nÖzellikler:\n• Birim Ağırlık: 7 gr\n• Çikolata Boyutu: 4 x 4 cm (1.57\" x 1.57\")\n• Kutu Boyutu: 20 cm Çap x 5 cm Yükseklik\n• Çikolata Çeşidi: Sütlü Çikolata\n• Baskı: Tam Renkli, Kişiye Özel\n• Raf Ömrü: Oda sıcaklığında 12 ay\n• Gold ve Gümüş folyo + kutu seçenekleri\n• Bireysel ambalaj (her çikolata)\n• 35'ten 300 adete kadar paketler",
     "images": [
       "urunler/cikolata/1.jpg",
       "urunler/cikolata/2.jpg",
@@ -166,27 +173,32 @@
     ],
     "amazonUrl": "https://www.amazon.com/stores/ShawlySisters/page/7D684352-F15A-429D-9732-9E5904129751",
     "bundles": [
-      { "id": "bndl_ck_50", "label": "50 Adet", "qty": 50, "price": 1500 },
-      { "id": "bndl_ck_100", "label": "100 Adet", "qty": 100, "price": 2800 },
-      { "id": "bndl_ck_200", "label": "200 Adet", "qty": 200, "price": 5400 }
+      { "id": "bndl_ck_35", "label": "35 Adet", "qty": 35, "price": 1800 },
+      { "id": "bndl_ck_50", "label": "50 Adet", "qty": 50, "price": 2200 },
+      { "id": "bndl_ck_75", "label": "75 Adet", "qty": 75, "price": 3000 },
+      { "id": "bndl_ck_100", "label": "100 Adet", "qty": 100, "price": 4000 },
+      { "id": "bndl_ck_125", "label": "125 Adet", "qty": 125, "price": 4960 },
+      { "id": "bndl_ck_150", "label": "150 Adet", "qty": 150, "price": 5960 },
+      { "id": "bndl_ck_175", "label": "175 Adet", "qty": 175, "price": 6960 },
+      { "id": "bndl_ck_200", "label": "200 Adet", "qty": 200, "price": 7920 },
+      { "id": "bndl_ck_225", "label": "225 Adet", "qty": 225, "price": 8920 },
+      { "id": "bndl_ck_250", "label": "250 Adet", "qty": 250, "price": 9920 },
+      { "id": "bndl_ck_275", "label": "275 Adet", "qty": 275, "price": 10920 },
+      { "id": "bndl_ck_300", "label": "300 Adet", "qty": 300, "price": 11880 }
     ],
     "variations": [
       {
-        "name": "Folyo",
-        "options": ["Gold", "Gümüş"]
-      },
-      {
-        "name": "Kutu",
-        "options": ["Gold Kutu", "Gümüş Kutu"]
+        "name": "Folyo & Kutu",
+        "options": ["Gold Folyo + Gold Kutu", "Gümüş Folyo + Gümüş Kutu"]
       }
     ]
   },
   {
     "id": "p_cenaze_mumluk",
-    "name": "El Yapımı Cenaze Mumluğu",
+    "name": "Anma Mumluğu - Memorial Wooden Candle Holder",
     "category": "Özel Tasarım",
-    "price": 0,
-    "description": "Cenaze töreni ve anma günleri için zarif, el yapımı mumluk. Sade ve saygılı tasarım.\n\nÖzellikler:\n• El yapımı ahşap mumluk\n• Tealight mum uyumlu\n• Sade ve zarif tasarım\n• Kişiselleştirilebilir lazer kazıma\n• Anma törenleri için ideal",
+    "price": 100,
+    "description": "Cenaze töreni, anma günleri ve sevdiklerini kaybedenler için zarif, el yapımı ahşap mumluk. \"In Loving Memory\" temalı, sade ve saygılı tasarım.\n\nÖzellikler:\n• El yapımı ahşap mumluk\n• Tealight mum uyumlu\n• Kalp, kuş, \"Forever\", \"Thoughts\" desen seçenekleri\n• Sade ve zarif tasarım\n• Kişiselleştirilebilir lazer kazıma\n• Anma törenleri ve hayat kutlamaları için ideal",
     "images": [
       "urunler/cenaze-mumluk/1.png",
       "urunler/cenaze-mumluk/2.png",
@@ -195,10 +207,16 @@
     ],
     "amazonUrl": "https://www.amazon.com/stores/ShawlySisters/page/7D684352-F15A-429D-9732-9E5904129751",
     "bundles": [
-      { "id": "bndl_cn_25", "label": "25 Adet", "qty": 25, "price": 2000 },
-      { "id": "bndl_cn_50", "label": "50 Adet", "qty": 50, "price": 3800 },
-      { "id": "bndl_cn_100", "label": "100 Adet", "qty": 100, "price": 7200 }
+      { "id": "bndl_cn_10", "label": "10 Adet", "qty": 10, "price": 1000 },
+      { "id": "bndl_cn_25", "label": "25 Adet", "qty": 25, "price": 2500 },
+      { "id": "bndl_cn_50", "label": "50 Adet", "qty": 50, "price": 4800 },
+      { "id": "bndl_cn_100", "label": "100 Adet", "qty": 100, "price": 9200 }
     ],
-    "variations": []
+    "variations": [
+      {
+        "name": "Desen",
+        "options": ["Kalp (Heart)", "Kuş (Bird)", "Forever", "Thoughts"]
+      }
+    ]
   }
 ]
