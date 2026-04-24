@@ -327,10 +327,24 @@
         <label>Ürün Adı
           <input type="text" id="productName" required maxlength="200" />
         </label>
-        <label>Fiyat (₺) — Kargo Dahil
+        <label>Tek Adet Fiyatı (₺) — Kargo Dahil
           <input type="number" id="productPrice" required min="0" step="0.01" />
-          <small class="muted">Buraya gireceğin fiyat müşteriye "Kargo Dahil Fiyat" olarak gösterilecek.</small>
+          <small class="muted">Bu, bundle (çoklu adet) tanımlamadıysan müşteriye gösterilen ana fiyattır.</small>
         </label>
+
+        <fieldset class="dynamic-section">
+          <legend>📦 Bundle (Çoklu Adet) Seçenekleri</legend>
+          <p class="muted" style="margin:0 0 8px;">Farklı adet paketleri tanımla. Müşteri detay sayfasında seçer.</p>
+          <div id="bundleRows" class="dyn-rows"></div>
+          <button type="button" id="addBundleBtn" class="btn ghost small">+ Bundle Ekle</button>
+        </fieldset>
+
+        <fieldset class="dynamic-section">
+          <legend>🎨 Varyasyonlar (Renk, Koku, Boyut vb.)</legend>
+          <p class="muted" style="margin:0 0 8px;">Her varyasyon için seçenekleri virgülle ayır.</p>
+          <div id="variationRows" class="dyn-rows"></div>
+          <button type="button" id="addVariationBtn" class="btn ghost small">+ Varyasyon Ekle</button>
+        </fieldset>
         <label>Açıklama
           <textarea id="productDesc" rows="6" maxlength="5000" placeholder="Ürün açıklaması (en fazla 5000 karakter)"></textarea>
           <small class="muted"><span id="descCount">0</span> / 5000 karakter</small>
@@ -383,6 +397,13 @@
             <div class="pd-price" id="pdPrice"></div>
             <small class="muted">Kargo Dahil Fiyat</small>
           </div>
+        </div>
+        <div class="pd-section" id="pdBundleSection" hidden>
+          <h4>Adet Seçimi</h4>
+          <div id="pdBundles" class="pd-bundles"></div>
+        </div>
+        <div class="pd-section" id="pdVariationSection" hidden>
+          <div id="pdVariations" class="pd-variations"></div>
         </div>
         <div class="pd-section">
           <h4>Açıklama</h4>

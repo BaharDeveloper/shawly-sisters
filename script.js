@@ -56,14 +56,38 @@ let cart = load(STORE.cart, []);
 let users = load(STORE.users, []);
 let editingId = null;
 let pendingImages = []; // Ürün formundaki seçili görseller (data URL veya http URL)
+let pendingBundles = []; // Form geçici bundle listesi: [{label, qty, price}]
+let pendingVariations = []; // Form geçici varyasyon listesi: [{name, options}]
 const MAX_IMAGES = 10;
 
 function migrateProducts(list) {
   return list.map(p => {
-    if (p.images && Array.isArray(p.images)) return p;
-    if (p.image) return { ...p, images: [p.image] };
-    return { ...p, images: [] };
+    let q = { ...p };
+    if (!(q.images && Array.isArray(q.images))) {
+      q.images = q.image ? [q.image] : [];
+    }
+    if (!Array.isArray(q.bundles)) q.bundles = [];
+    if (!Array.isArray(q.variations)) q.variations = [];
+    return q;
   });
+}
+
+function bundlePrice(p, bundleId) {
+  if (!bundleId) return Number(p.price || 0);
+  const b = (p.bundles || []).find(x => x.id === bundleId);
+  return b ? Number(b.price || 0) : Number(p.price || 0);
+}
+function bundleLabel(p, bundleId) {
+  if (!bundleId) return '1 Adet';
+  const b = (p.bundles || []).find(x => x.id === bundleId);
+  return b ? b.label : '1 Adet';
+}
+function variationsKey(choices) {
+  if (!choices || !Object.keys(choices).length) return '';
+  return Object.entries(choices).sort().map(([k, v]) => `${k}:${v}`).join('|');
+}
+function cartItemKey(productId, bundleId, choices) {
+  return `${productId}::${bundleId || ''}::${variationsKey(choices)}`;
 }
 
 products = migrateProducts(products);
@@ -145,28 +169,37 @@ function renderProducts() {
 }
 
 // --- Sepet ---
-function addToCart(id) {
+function addToCart(id, bundleId = null, choices = {}) {
   const p = products.find(x => x.id === id);
   if (!p) return;
-  const item = cart.find(x => x.id === id);
+  // Eğer bundle tanımlıysa ve seçilmemişse, ilkini varsayılan al
+  if (!bundleId && (p.bundles || []).length) {
+    bundleId = p.bundles[0].id;
+  }
+  // Varyasyon zorunluluğu - eksik seçim varsa uyar
+  for (const v of (p.variations || [])) {
+    if (!choices[v.name]) { toast(`Lütfen ${v.name} seçimi yap.`); return; }
+  }
+  const key = cartItemKey(id, bundleId, choices);
+  const item = cart.find(x => x.key === key);
   if (item) item.qty += 1;
-  else cart.push({ id, qty: 1 });
+  else cart.push({ key, id, bundleId, choices, qty: 1 });
   save(STORE.cart, cart);
   renderCart();
   toast(`${p.name} sepete eklendi`);
 }
 
-function changeQty(id, delta) {
-  const item = cart.find(x => x.id === id);
+function changeQty(key, delta) {
+  const item = cart.find(x => x.key === key);
   if (!item) return;
   item.qty += delta;
-  if (item.qty <= 0) cart = cart.filter(x => x.id !== id);
+  if (item.qty <= 0) cart = cart.filter(x => x.key !== key);
   save(STORE.cart, cart);
   renderCart();
 }
 
-function removeFromCart(id) {
-  cart = cart.filter(x => x.id !== id);
+function removeFromCart(key) {
+  cart = cart.filter(x => x.key !== key);
   save(STORE.cart, cart);
   renderCart();
 }
@@ -175,9 +208,16 @@ function cartTotal() {
   return cart.reduce((s, it) => {
     const p = products.find(x => x.id === it.id);
     if (!p) return s;
-    return s + Number(p.price || 0) * it.qty;
+    return s + bundlePrice(p, it.bundleId) * it.qty;
   }, 0);
 }
+
+// Eski sepet öğelerini yeni anahtar yapısına taşı
+cart = cart.map(it => {
+  if (it.key) return it;
+  return { ...it, key: cartItemKey(it.id, it.bundleId || null, it.choices || {}), bundleId: it.bundleId || null, choices: it.choices || {} };
+});
+save(STORE.cart, cart);
 
 function renderCart() {
   const list = $('#cartItems');
@@ -195,7 +235,10 @@ function renderCart() {
     const p = products.find(x => x.id === item.id);
     if (!p) continue;
     count += item.qty;
-    const unit = Number(p.price || 0);
+    const unit = bundlePrice(p, item.bundleId);
+    const bundleLbl = (p.bundles || []).length ? bundleLabel(p, item.bundleId) : null;
+    const choiceLbl = Object.entries(item.choices || {}).map(([k, v]) => `${k}: ${v}`).join(' · ');
+    const metaParts = [bundleLbl, choiceLbl].filter(Boolean);
 
     const row = document.createElement('div');
     row.className = 'cart-item';
@@ -204,14 +247,15 @@ function renderCart() {
       ${cartImg ? `<img src="${escapeAttr(cartImg)}" alt="" />` : `<div style="width:56px;height:56px;display:flex;align-items:center;justify-content:center;background:var(--bg-soft);border-radius:10px;">🕯️</div>`}
       <div>
         <div class="ci-name"></div>
+        ${metaParts.length ? `<div class="cart-item-meta">${escapeAttr(metaParts.join(' · '))}</div>` : ''}
         <div class="ci-price">${fmtPrice(unit)} <small class="muted">(kargo dahil)</small></div>
         <div class="qty">
-          <button data-dec="${p.id}">−</button>
+          <button data-dec="${escapeAttr(item.key)}">−</button>
           <span>${item.qty}</span>
-          <button data-inc="${p.id}">+</button>
+          <button data-inc="${escapeAttr(item.key)}">+</button>
         </div>
       </div>
-      <button class="ci-remove" data-rem="${p.id}">Sil</button>
+      <button class="ci-remove" data-rem="${escapeAttr(item.key)}">Sil</button>
     `;
     row.querySelector('.ci-name').textContent = p.name;
     list.appendChild(row);
@@ -298,8 +342,9 @@ function renderOrders() {
     card.className = 'order-card';
 
     const itemsHtml = o.items.map(i => {
-      const name = String(i.name).replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
-      return `<div>• ${name} × ${i.qty} — ${fmtPrice(i.price * i.qty)}</div>`;
+      const name = escapeAttr(i.name);
+      const meta = [i.bundle, ...Object.entries(i.choices || {}).map(([k, v]) => `${k}: ${v}`)].filter(Boolean).join(' · ');
+      return `<div>• ${name}${meta ? ' <span class="muted">(' + escapeAttr(meta) + ')</span>' : ''} × ${i.qty} — ${fmtPrice(i.price * i.qty)}</div>`;
     }).join('');
 
     card.innerHTML = `
@@ -486,6 +531,8 @@ function uid() { return 'p_' + Math.random().toString(36).slice(2, 10) + Date.no
 function resetProductForm() {
   editingId = null;
   pendingImages = [];
+  pendingBundles = [];
+  pendingVariations = [];
   $('#productId').value = '';
   $('#productName').value = '';
   $('#productPrice').value = '';
@@ -495,6 +542,8 @@ function resetProductForm() {
   $('#productAmazonUrl').value = '';
   $('#descCount').textContent = '0';
   renderImagePreviews();
+  renderBundleRows();
+  renderVariationRows();
   $('#saveProductBtn').textContent = 'Ürünü Kaydet';
   $('#cancelEditBtn').hidden = true;
 }
@@ -502,20 +551,56 @@ function resetProductForm() {
 function fillProductForm(p) {
   editingId = p.id;
   pendingImages = [...imageList(p)];
+  pendingBundles = (p.bundles || []).map(b => ({ ...b }));
+  pendingVariations = (p.variations || []).map(v => ({ name: v.name, options: [...(v.options || [])] }));
   $('#productId').value = p.id;
   $('#productName').value = p.name;
   $('#productPrice').value = p.price;
   $('#productDesc').value = p.description || '';
   $('#descCount').textContent = (p.description || '').length;
   $('#productAmazonUrl').value = p.amazonUrl || '';
-  // Sadece http URL'lerini textarea'ya yaz (data URL'ler önizleme yeterli)
   const urls = pendingImages.filter(s => !s.startsWith('data:'));
   $('#productImageUrl').value = urls.join('\n');
   $('#productImage').value = '';
   renderImagePreviews();
+  renderBundleRows();
+  renderVariationRows();
   $('#saveProductBtn').textContent = 'Değişiklikleri Kaydet';
   $('#cancelEditBtn').hidden = false;
   switchAdminTab('add');
+}
+
+function renderBundleRows() {
+  const wrap = $('#bundleRows');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  pendingBundles.forEach((b, i) => {
+    const row = document.createElement('div');
+    row.className = 'dyn-row bundle-row';
+    row.innerHTML = `
+      <input type="text" placeholder="Etiket (örn. 25 Adet)" value="${escapeAttr(b.label || '')}" data-bf="label" data-bi="${i}" />
+      <input type="number" min="1" step="1" placeholder="Adet" value="${b.qty || ''}" data-bf="qty" data-bi="${i}" />
+      <input type="number" min="0" step="0.01" placeholder="Toplam Fiyat ₺" value="${b.price || ''}" data-bf="price" data-bi="${i}" />
+      <button type="button" class="dyn-remove" data-rmbundle="${i}" title="Kaldır">×</button>
+    `;
+    wrap.appendChild(row);
+  });
+}
+
+function renderVariationRows() {
+  const wrap = $('#variationRows');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  pendingVariations.forEach((v, i) => {
+    const row = document.createElement('div');
+    row.className = 'dyn-row variation-row';
+    row.innerHTML = `
+      <input type="text" placeholder="Adı (örn. Renk)" value="${escapeAttr(v.name || '')}" data-vf="name" data-vi="${i}" />
+      <input type="text" placeholder="Seçenekler (virgülle): Beyaz, Krem, Pembe" value="${escapeAttr((v.options || []).join(', '))}" data-vf="options" data-vi="${i}" />
+      <button type="button" class="dyn-remove" data-rmvariation="${i}" title="Kaldır">×</button>
+    `;
+    wrap.appendChild(row);
+  });
 }
 
 function renderImagePreviews() {
@@ -582,9 +667,10 @@ function renderAdminOrders() {
   for (const o of orders) {
     const status = orderStatusInfo(o);
     const eta = estimatedDelivery(o.createdAt);
-    const itemsHtml = o.items.map(i =>
-      `<div>• ${escapeAttr(i.name)} × ${i.qty} — ${fmtPrice(i.price * i.qty)}</div>`
-    ).join('');
+    const itemsHtml = o.items.map(i => {
+      const meta = [i.bundle, ...Object.entries(i.choices || {}).map(([k, v]) => `${k}: ${v}`)].filter(Boolean).join(' · ');
+      return `<div>• ${escapeAttr(i.name)}${meta ? ' <span class="muted">(' + escapeAttr(meta) + ')</span>' : ''} × ${i.qty} — ${fmtPrice(i.price * i.qty)}</div>`;
+    }).join('');
     const card = document.createElement('div');
     card.className = 'order-card';
     card.innerHTML = `
@@ -652,15 +738,28 @@ async function handleProductSubmit(e) {
   }
   const images = merged.slice(0, MAX_IMAGES);
 
+  // Geçerli bundle ve varyasyonları topla
+  const bundles = pendingBundles
+    .filter(b => b.label && Number(b.qty) > 0 && Number(b.price) > 0)
+    .map(b => ({
+      id: b.id || ('bndl_' + Math.random().toString(36).slice(2, 8)),
+      label: b.label.trim(),
+      qty: Number(b.qty),
+      price: Number(b.price),
+    }));
+  const variations = pendingVariations
+    .filter(v => v.name && (v.options || []).length)
+    .map(v => ({ name: v.name.trim(), options: v.options.filter(Boolean) }));
+
   if (editingId) {
     const idx = products.findIndex(p => p.id === editingId);
     if (idx !== -1) {
-      products[idx] = { ...products[idx], name, price, description, images, amazonUrl };
+      products[idx] = { ...products[idx], name, price, description, images, amazonUrl, bundles, variations };
       delete products[idx].image;
     }
     toast('Ürün güncellendi');
   } else {
-    products.push({ id: uid(), name, price, description, images, amazonUrl });
+    products.push({ id: uid(), name, price, description, images, amazonUrl, bundles, variations });
     toast('Ürün eklendi');
   }
   save(STORE.products, products);
@@ -725,12 +824,17 @@ function openCheckout() {
   for (const it of cart) {
     const p = products.find(x => x.id === it.id);
     if (!p) continue;
+    const unit = bundlePrice(p, it.bundleId);
+    const meta = [
+      (p.bundles || []).length ? bundleLabel(p, it.bundleId) : null,
+      ...Object.entries(it.choices || {}).map(([k, v]) => `${k}: ${v}`)
+    ].filter(Boolean).join(' · ');
     const line = document.createElement('div');
     line.className = 'checkout-line';
     const name = document.createElement('span');
-    name.textContent = `${p.name} × ${it.qty}`;
+    name.textContent = `${p.name}${meta ? ' (' + meta + ')' : ''} × ${it.qty}`;
     const price = document.createElement('span');
-    price.textContent = fmtPrice(p.price * it.qty);
+    price.textContent = fmtPrice(unit * it.qty);
     line.appendChild(name); line.appendChild(price);
     wrap.appendChild(line);
   }
@@ -784,7 +888,14 @@ async function handleCheckoutSubmit(e) {
     items: cart.map(it => {
       const p = products.find(x => x.id === it.id);
       if (!p) return null;
-      return { id: p.id, name: p.name, price: Number(p.price || 0), qty: it.qty };
+      return {
+        id: p.id,
+        name: p.name,
+        price: bundlePrice(p, it.bundleId),
+        qty: it.qty,
+        bundle: (p.bundles || []).length ? bundleLabel(p, it.bundleId) : null,
+        choices: it.choices || {},
+      };
     }).filter(Boolean),
     total: cartTotal(),
     status: 'paid',
@@ -805,7 +916,10 @@ async function handleCheckoutSubmit(e) {
   cart = []; save(STORE.cart, cart); renderCart();
 
   // Satıcıya bildirim için mailto aç (siparişi ben de görebileyim)
-  const lines = order.items.map(i => `• ${i.name} × ${i.qty} = ${fmtPrice(i.price * i.qty)}`).join('\n');
+  const lines = order.items.map(i => {
+    const meta = [i.bundle, ...Object.entries(i.choices || {}).map(([k, v]) => `${k}: ${v}`)].filter(Boolean).join(' · ');
+    return `• ${i.name}${meta ? ' (' + meta + ')' : ''} × ${i.qty} = ${fmtPrice(i.price * i.qty)}`;
+  }).join('\n');
   const body =
 `Yeni sipariş geldi!
 
@@ -867,7 +981,15 @@ function openAccountModal() {
 // --- Olay bağlamaları ---
 document.addEventListener('click', (e) => {
   const t = e.target;
-  if (t.matches('[data-add]')) addToCart(t.dataset.add);
+  if (t.matches('[data-add]')) {
+    const p = products.find(x => x.id === t.dataset.add);
+    // Bundle veya varyasyon varsa kullanıcı seçim yapmalı → detayı aç
+    if (p && ((p.bundles || []).length || (p.variations || []).length)) {
+      openProductDetail(p.id);
+    } else {
+      addToCart(t.dataset.add);
+    }
+  }
   else if (t.matches('[data-inc]')) changeQty(t.dataset.inc, +1);
   else if (t.matches('[data-dec]')) changeQty(t.dataset.dec, -1);
   else if (t.matches('[data-rem]')) removeFromCart(t.dataset.rem);
@@ -1058,6 +1180,56 @@ $('#imagePreviewWrap').addEventListener('click', (e) => {
   }
 });
 
+// Bundle ekle/kaldır/değiştir
+const addBundleBtn = document.getElementById('addBundleBtn');
+if (addBundleBtn) addBundleBtn.addEventListener('click', () => {
+  pendingBundles.push({ label: '', qty: '', price: '' });
+  renderBundleRows();
+});
+const bundleRowsEl = document.getElementById('bundleRows');
+if (bundleRowsEl) {
+  bundleRowsEl.addEventListener('click', (e) => {
+    if (e.target.matches('[data-rmbundle]')) {
+      pendingBundles.splice(parseInt(e.target.dataset.rmbundle, 10), 1);
+      renderBundleRows();
+    }
+  });
+  bundleRowsEl.addEventListener('input', (e) => {
+    const t = e.target;
+    if (!t.dataset.bf) return;
+    const i = parseInt(t.dataset.bi, 10);
+    if (!pendingBundles[i]) return;
+    pendingBundles[i][t.dataset.bf] = t.value;
+  });
+}
+
+// Varyasyon ekle/kaldır/değiştir
+const addVariationBtn = document.getElementById('addVariationBtn');
+if (addVariationBtn) addVariationBtn.addEventListener('click', () => {
+  pendingVariations.push({ name: '', options: [] });
+  renderVariationRows();
+});
+const variationRowsEl = document.getElementById('variationRows');
+if (variationRowsEl) {
+  variationRowsEl.addEventListener('click', (e) => {
+    if (e.target.matches('[data-rmvariation]')) {
+      pendingVariations.splice(parseInt(e.target.dataset.rmvariation, 10), 1);
+      renderVariationRows();
+    }
+  });
+  variationRowsEl.addEventListener('input', (e) => {
+    const t = e.target;
+    if (!t.dataset.vf) return;
+    const i = parseInt(t.dataset.vi, 10);
+    if (!pendingVariations[i]) return;
+    if (t.dataset.vf === 'options') {
+      pendingVariations[i].options = t.value.split(',').map(s => s.trim()).filter(Boolean);
+    } else {
+      pendingVariations[i][t.dataset.vf] = t.value;
+    }
+  });
+}
+
 // Sepetten ödemeye
 $('#checkoutBtn').addEventListener('click', openCheckout);
 $('#checkoutForm').addEventListener('submit', handleCheckoutSubmit);
@@ -1086,6 +1258,9 @@ let pdImages = [];
 let pdIndex = 0;
 let pdProductId = null;
 
+let pdSelectedBundleId = null;
+let pdSelectedChoices = {};
+
 function openProductDetail(productId) {
   const p = products.find(x => x.id === productId);
   if (!p) return;
@@ -1094,8 +1269,19 @@ function openProductDetail(productId) {
   pdIndex = 0;
 
   $('#pdName').textContent = p.name;
-  $('#pdPrice').textContent = fmtPrice(Number(p.price || 0));
   $('#pdDesc').textContent = p.description || 'Açıklama eklenmemiş.';
+
+  // Bundle seçimi (varsa) ilk bundle'ı varsayılan al
+  pdSelectedBundleId = (p.bundles || []).length ? p.bundles[0].id : null;
+  // Varyasyonlar için her birinde ilk seçeneği seç
+  pdSelectedChoices = {};
+  for (const v of (p.variations || [])) {
+    if (v.options && v.options.length) pdSelectedChoices[v.name] = v.options[0];
+  }
+
+  renderPdBundles(p);
+  renderPdVariations(p);
+  updatePdPrice(p);
 
   const amazonBtn = $('#pdAmazonBtn');
   if (p.amazonUrl) {
@@ -1107,6 +1293,62 @@ function openProductDetail(productId) {
 
   renderProductDetailGallery();
   openModal('productDetailModal');
+}
+
+function updatePdPrice(p) {
+  $('#pdPrice').textContent = fmtPrice(bundlePrice(p, pdSelectedBundleId));
+}
+
+function renderPdBundles(p) {
+  const sec = $('#pdBundleSection');
+  const wrap = $('#pdBundles');
+  wrap.innerHTML = '';
+  if (!(p.bundles || []).length) { sec.hidden = true; return; }
+  sec.hidden = false;
+  for (const b of p.bundles) {
+    const div = document.createElement('button');
+    div.type = 'button';
+    div.className = 'pd-bundle' + (b.id === pdSelectedBundleId ? ' active' : '');
+    const perUnit = b.qty > 0 ? (b.price / b.qty) : b.price;
+    div.innerHTML = `
+      <span class="bundle-label">${escapeAttr(b.label)}</span>
+      <span class="bundle-price">${fmtPrice(b.price)}</span>
+      <span class="bundle-unit">${b.qty} adet · ${fmtPrice(perUnit)}/adet</span>
+    `;
+    div.addEventListener('click', () => {
+      pdSelectedBundleId = b.id;
+      renderPdBundles(p);
+      updatePdPrice(p);
+    });
+    wrap.appendChild(div);
+  }
+}
+
+function renderPdVariations(p) {
+  const sec = $('#pdVariationSection');
+  const wrap = $('#pdVariations');
+  wrap.innerHTML = '';
+  if (!(p.variations || []).length) { sec.hidden = true; return; }
+  sec.hidden = false;
+  for (const v of p.variations) {
+    const block = document.createElement('div');
+    block.className = 'pd-variation';
+    const optsHtml = (v.options || []).map(opt => {
+      const active = pdSelectedChoices[v.name] === opt ? ' active' : '';
+      return `<button type="button" class="pd-variation-opt${active}" data-vname="${escapeAttr(v.name)}" data-vopt="${escapeAttr(opt)}">${escapeAttr(opt)}</button>`;
+    }).join('');
+    block.innerHTML = `
+      <div class="pd-variation-name">${escapeAttr(v.name)}</div>
+      <div class="pd-variation-options">${optsHtml}</div>
+    `;
+    block.addEventListener('click', (e) => {
+      const t = e.target;
+      if (!t.matches('.pd-variation-opt')) return;
+      pdSelectedChoices[t.dataset.vname] = t.dataset.vopt;
+      renderPdVariations(p);
+    });
+    wrap.appendChild(block);
+  }
 }
 
 function renderProductDetailGallery() {
@@ -1139,7 +1381,7 @@ $('#pdMainImg').addEventListener('click', () => {
 });
 
 $('#pdAddCartBtn').addEventListener('click', () => {
-  if (pdProductId) addToCart(pdProductId);
+  if (pdProductId) addToCart(pdProductId, pdSelectedBundleId, { ...pdSelectedChoices });
 });
 
 // Ürün kartına tıklayınca detayı aç (sepete ekle butonuna tıklanmadıkça)
