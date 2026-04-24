@@ -237,13 +237,15 @@ function refreshUserUi() {
     loginBtn.hidden = true;
     registerBtn.hidden = true;
     ordersBtn.hidden = false;
-    if (adminLink) adminLink.style.display = 'none';
+    document.body.classList.add('user-logged-in');
+    if (adminLink) { adminLink.hidden = true; adminLink.style.display = 'none'; }
   } else {
     userBtn.hidden = true;
     loginBtn.hidden = false;
     registerBtn.hidden = false;
     ordersBtn.hidden = true;
-    if (adminLink) adminLink.style.display = '';
+    document.body.classList.remove('user-logged-in');
+    if (adminLink) { adminLink.hidden = false; adminLink.style.display = ''; }
   }
 }
 
@@ -961,6 +963,10 @@ $('#userLoginForm').addEventListener('submit', async (e) => {
 
 $('#adminLink').addEventListener('click', (e) => {
   e.preventDefault();
+  if (currentUser()) {
+    toast('Bu alan yöneticiler içindir. Hesabından çıkış yap.');
+    return;
+  }
   if (isAdmin()) {
     resetProductForm(); switchAdminTab('add'); openModal('adminModal');
     return;

@@ -197,6 +197,7 @@ body {
 .site-footer p { margin: 4px 0; }
 .admin-link { color: var(--ink-soft); font-size: 12px; text-decoration: none; opacity: 0.7; }
 .admin-link:hover { color: var(--accent-dark); opacity: 1; }
+body.user-logged-in #adminLink { display: none !important; }
 
 .code-display {
   background: linear-gradient(135deg, #fff8ec, #f7e6c8);
