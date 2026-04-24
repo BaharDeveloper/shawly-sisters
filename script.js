@@ -1251,7 +1251,7 @@ $('#ccCvv').addEventListener('input', (e) => { e.target.value = e.target.value.r
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeCart();
-    ['loginModal','adminModal','authModal','accountModal','checkoutModal','successModal','ordersModal','forgotModal','productDetailModal']
+    ['loginModal','adminModal','authModal','accountModal','checkoutModal','successModal','ordersModal','forgotModal','productDetailModal','publishSetupModal']
       .forEach(closeModal);
   }
 });
@@ -1456,23 +1456,100 @@ document.addEventListener('keydown', (e) => {
   else if (e.key === 'Escape') closeLightbox();
 });
 
-// Yayınla butonu: admin'in yerel ürün listesini products.json olarak indirir
-function publishProducts() {
-  const json = JSON.stringify(products, null, 2);
-  const blob = new Blob([json], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'products.json';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  toast('products.json indirildi. Bu dosyayı bana iletirsen yayınlarım.');
+// === Yayınla: GitHub API üzerinden products.json'ı doğrudan günceller ===
+const GH_REPO = 'BaharDeveloper/shawly-sisters';
+const GH_PATH = 'products.json';
+const GH_TOKEN_KEY = 'ma_gh_token';
+
+function utf8ToBase64(str) {
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
+async function publishProducts() {
+  const token = localStorage.getItem(GH_TOKEN_KEY);
+  if (!token) {
+    document.getElementById('ghTokenError').hidden = true;
+    document.getElementById('ghTokenInput').value = '';
+    openModal('publishSetupModal');
+    return;
+  }
+  await pushProductsToGitHub(token);
+}
+
+async function pushProductsToGitHub(token) {
+  const btn = document.getElementById('publishBtn');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Yayınlanıyor...'; }
+  try {
+    const url = `https://api.github.com/repos/${GH_REPO}/contents/${GH_PATH}`;
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+    };
+
+    // Mevcut dosya SHA'sını al
+    const getRes = await fetch(url, { headers });
+    if (getRes.status === 401) throw new Error('AUTH');
+    if (!getRes.ok && getRes.status !== 404) throw new Error('Bağlantı hatası: ' + getRes.status);
+
+    let sha = null;
+    if (getRes.ok) {
+      const fileData = await getRes.json();
+      sha = fileData.sha;
+    }
+
+    const json = JSON.stringify(products, null, 2);
+    const body = {
+      message: `Update products via admin panel (${products.length} ürün)`,
+      content: utf8ToBase64(json),
+    };
+    if (sha) body.sha = sha;
+
+    const putRes = await fetch(url, {
+      method: 'PUT',
+      headers: { ...headers, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+
+    if (putRes.status === 401) throw new Error('AUTH');
+    if (!putRes.ok) {
+      const err = await putRes.json().catch(() => ({}));
+      throw new Error(err.message || 'Yayınlama başarısız (' + putRes.status + ')');
+    }
+
+    toast('✓ Yayınlandı! 1-2 dakika içinde tüm cihazlarda görünür.');
+  } catch (e) {
+    if (e.message === 'AUTH') {
+      localStorage.removeItem(GH_TOKEN_KEY);
+      alert('GitHub token geçersiz veya süresi dolmuş. Lütfen yenisini oluştur.');
+      document.getElementById('ghTokenError').hidden = true;
+      document.getElementById('ghTokenInput').value = '';
+      openModal('publishSetupModal');
+    } else {
+      alert('Yayınlama hatası: ' + e.message);
+    }
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = '🚀 Yayınla'; }
+  }
 }
 
 const publishBtn = document.getElementById('publishBtn');
 if (publishBtn) publishBtn.addEventListener('click', publishProducts);
+
+const saveGhTokenBtn = document.getElementById('saveGhTokenBtn');
+if (saveGhTokenBtn) saveGhTokenBtn.addEventListener('click', async () => {
+  const token = document.getElementById('ghTokenInput').value.trim();
+  const err = document.getElementById('ghTokenError');
+  err.hidden = true;
+  if (!token || !token.startsWith('ghp_') && !token.startsWith('github_pat_')) {
+    err.textContent = 'Geçerli bir GitHub token gir (ghp_ veya github_pat_ ile başlamalı).';
+    err.hidden = false;
+    return;
+  }
+  localStorage.setItem(GH_TOKEN_KEY, token);
+  closeModal('publishSetupModal');
+  await pushProductsToGitHub(token);
+});
 
 // İlk yükleme
 $('#year').textContent = new Date().getFullYear();

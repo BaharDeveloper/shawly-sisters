@@ -422,6 +422,38 @@
   </div>
 </div>
 
+<!-- Yayınlama Kurulumu -->
+<div id="publishSetupModal" class="modal" aria-hidden="true">
+  <div class="modal-card">
+    <button class="close-btn" data-close="publishSetupModal" aria-label="Kapat">×</button>
+    <h3>🚀 Yayınlama Kurulumu</h3>
+    <p class="muted">Ürünleri tüm cihazlarda göstermek için GitHub'a tek seferlik bir izin vermen gerekiyor (1-2 dakika).</p>
+
+    <ol class="setup-steps">
+      <li>
+        <strong>Adım 1:</strong> GitHub'da yayın anahtarı oluştur
+        <a href="https://github.com/settings/tokens/new?description=Shawly+Sisters+Publish&scopes=repo" target="_blank" rel="noopener" class="btn primary block" style="margin-top:8px;">
+          ➡️ GitHub Token Sayfasını Aç
+        </a>
+        <ul class="muted" style="margin-top:8px;font-size:13px;">
+          <li>Açılan sayfada <strong>"Expiration"</strong> → <strong>"No expiration"</strong> seç</li>
+          <li><strong>"repo"</strong> kutusu otomatik işaretli — dokunma</li>
+          <li>En altta yeşil <strong>"Generate token"</strong> butonuna bas</li>
+          <li>Yeni sayfada <code>ghp_</code> ile başlayan uzun kodu <strong>kopyala</strong></li>
+        </ul>
+      </li>
+      <li style="margin-top:16px;">
+        <strong>Adım 2:</strong> Kopyaladığın token'ı buraya yapıştır:
+        <input type="password" id="ghTokenInput" placeholder="ghp_..." style="margin-top:8px;" />
+      </li>
+    </ol>
+
+    <button id="saveGhTokenBtn" class="btn primary block" style="margin-top:14px;">Kaydet ve Yayınla</button>
+    <p id="ghTokenError" class="error" hidden></p>
+    <p class="hint">Token sadece senin tarayıcına kaydedilir, başkasıyla paylaşılmaz.</p>
+  </div>
+</div>
+
 <!-- Görsel Galerisi (Lightbox) -->
 <div id="lightbox" class="lightbox" aria-hidden="true">
   <button class="lightbox-close" id="lightboxClose" aria-label="Kapat">×</button>
