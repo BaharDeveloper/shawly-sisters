@@ -219,6 +219,8 @@ function renderCart() {
 
   totalEl.textContent = fmtPrice(cartTotal());
   countEl.textContent = count;
+  const fc = document.getElementById('floatingCartCount');
+  if (fc) fc.textContent = count;
 }
 
 // --- Kullanıcı Auth ---
@@ -228,17 +230,20 @@ function refreshUserUi() {
   const loginBtn = $('#loginBtn');
   const registerBtn = $('#registerBtn');
   const ordersBtn = $('#ordersBtn');
+  const adminLink = $('#adminLink');
   if (u) {
     userBtn.textContent = `👤 ${u.username}`;
     userBtn.hidden = false;
     loginBtn.hidden = true;
     registerBtn.hidden = true;
     ordersBtn.hidden = false;
+    if (adminLink) adminLink.style.display = 'none';
   } else {
     userBtn.hidden = true;
     loginBtn.hidden = false;
     registerBtn.hidden = false;
     ordersBtn.hidden = true;
+    if (adminLink) adminLink.style.display = '';
   }
 }
 
@@ -327,6 +332,11 @@ function renderOrders() {
   }
 }
 
+function silentAdminLogout() {
+  // Toast yok, modal kapatma yok — sessizce admin oturumunu sonlandır
+  sessionStorage.removeItem(STORE.session);
+}
+
 async function registerUser({ username, email, phone, password }) {
   username = username.trim();
   email = email.trim().toLowerCase();
@@ -344,6 +354,7 @@ async function registerUser({ username, email, phone, password }) {
   users.push(user);
   save(STORE.users, users);
   sessionStorage.setItem(STORE.userSession, user.id);
+  silentAdminLogout();
   refreshUserUi();
   return user;
 }
@@ -356,6 +367,7 @@ async function loginUser(idOrEmail, password) {
   );
   if (!u) throw new Error('Kullanıcı adı / e-posta ya da şifre hatalı.');
   sessionStorage.setItem(STORE.userSession, u.id);
+  silentAdminLogout();
   refreshUserUi();
   return u;
 }
@@ -448,6 +460,22 @@ async function adminLogin(pwd) {
     return true;
   }
   return false;
+}
+
+function notifyAdminLogin() {
+  const when = new Date().toLocaleString('tr-TR');
+  const ua = navigator.userAgent;
+  const subject = encodeURIComponent('Shawly Sisters - Yönetici Girişi Yapıldı');
+  const body = encodeURIComponent(
+`Yönetici girişi başarıyla yapıldı.
+
+Tarih: ${when}
+Cihaz: ${ua}
+
+Bu giriş sen değilsen, hemen yönetici şifresini değiştir.`
+  );
+  const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(STORE.ownerEmail)}&su=${subject}&body=${body}`;
+  window.open(url, '_blank');
 }
 
 // --- Admin: Ürün CRUD ---
@@ -834,6 +862,8 @@ document.addEventListener('click', (e) => {
 
 
 $('#cartBtn').addEventListener('click', openCart);
+const fcBtn = document.getElementById('floatingCartBtn');
+if (fcBtn) fcBtn.addEventListener('click', openCart);
 
 $('#loginBtn').addEventListener('click', () => openAuthModal('login'));
 $('#registerBtn').addEventListener('click', () => openAuthModal('register'));
@@ -960,6 +990,7 @@ $('#loginForm').addEventListener('submit', async (e) => {
     closeModal('loginModal');
     resetProductForm(); switchAdminTab('add'); openModal('adminModal');
     toast('Yönetici girişi başarılı');
+    notifyAdminLogin();
   } else {
     err.textContent = 'Hatalı şifre.';
     err.hidden = false;

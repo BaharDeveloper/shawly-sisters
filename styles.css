@@ -590,6 +590,24 @@ form input:focus, form textarea:focus {
   .checkout-row .btn { width: 100%; }
 }
 
+/* Yüzen sepet butonu */
+.floating-cart {
+  position: fixed; right: 22px; bottom: 22px;
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 22px; border-radius: 999px; border: none;
+  background: var(--accent); color: #fff;
+  font-weight: 700; font-size: 15px; cursor: pointer;
+  box-shadow: 0 10px 30px rgba(140, 94, 54, 0.35);
+  z-index: 80; transition: transform .15s, background .2s;
+}
+.floating-cart:hover { background: var(--accent-dark); transform: translateY(-2px); }
+.fc-icon { font-size: 20px; }
+.fc-count {
+  background: #fff; color: var(--accent-dark);
+  border-radius: 999px; padding: 2px 9px; font-size: 13px; font-weight: 700;
+  min-width: 24px; text-align: center;
+}
+
 /* Toast */
 .toast {
   position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
