@@ -281,6 +281,8 @@ body {
 .section-head .section-eyebrow { display: block; margin-bottom: 8px; }
 
 .products-section { padding: 24px 0 60px; }
+.products-top { padding-top: 36px; padding-bottom: 50px; }
+.products-top + .hero-slider { margin-top: 0; }
 
 .product-grid {
   display: grid;
