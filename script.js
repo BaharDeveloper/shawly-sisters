@@ -21,7 +21,7 @@ const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);
 
 const fmtPrice = (n) =>
-  new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(Number(n) || 0);
+  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(n) || 0);
 
 function load(key, fallback) {
   try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
