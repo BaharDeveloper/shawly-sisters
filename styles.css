@@ -54,10 +54,16 @@ body {
   display: flex; align-items: center; justify-content: space-between;
   padding: 14px 0;
 }
-.brand { display: flex; align-items: center; gap: 12px; }
-.brand-icon { font-size: 32px; }
-.brand h1 { margin: 0; font-size: 22px; letter-spacing: 0.3px; }
-.tagline { margin: 0; font-size: 12px; color: var(--ink-soft); }
+.brand {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: inherit;
+}
+.brand-logo {
+  height: 56px; width: auto; max-width: 240px;
+  display: block; object-fit: contain;
+  mix-blend-mode: multiply;
+}
+.brand-fallback { display: none; }
 
 .nav { display: flex; align-items: center; gap: 18px; }
 .nav a {
@@ -749,6 +755,11 @@ form input:focus, form textarea:focus {
 }
 .admin-tab:hover { background: var(--bg-soft); color: var(--ink); }
 .admin-tab.active { color: var(--accent-dark); border-bottom-color: var(--accent); }
+.admin-tab-badge {
+  display: inline-block; background: var(--danger); color: #fff;
+  font-size: 11px; font-weight: 700; padding: 1px 7px;
+  border-radius: 999px; margin-left: 4px; min-width: 18px; text-align: center;
+}
 .admin-pane[hidden] { display: none; }
 
 .product-form {
@@ -916,9 +927,7 @@ form input:focus, form textarea:focus {
 @media (max-width: 640px) {
   .nav { gap: 8px; }
   .nav a { display: none; }
-  .brand-icon { font-size: 26px; }
-  .brand h1 { font-size: 17px; }
-  .tagline { display: none; }
+  .brand-logo { height: 42px; max-width: 160px; }
   .header-inner { padding: 10px 0; }
   .icon-btn { padding: 7px 12px; font-size: 13px; }
 

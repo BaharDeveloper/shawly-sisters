@@ -797,6 +797,19 @@ function switchAdminTab(name) {
   $$('.admin-pane').forEach(p => p.hidden = p.dataset.apane !== name);
   if (name === 'manage') renderAdminList();
   if (name === 'orders') renderAdminOrders();
+  refreshOrdersBadge();
+}
+
+function refreshOrdersBadge() {
+  const badge = document.getElementById('adminOrdersBadge');
+  if (!badge) return;
+  const count = (load(STORE.orders, []) || []).length;
+  if (count > 0) {
+    badge.textContent = count;
+    badge.hidden = false;
+  } else {
+    badge.hidden = true;
+  }
 }
 
 function fileToDataUrl(file) {

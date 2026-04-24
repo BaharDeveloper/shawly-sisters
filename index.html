@@ -10,13 +10,10 @@
 
 <header class="site-header">
   <div class="container header-inner">
-    <div class="brand">
-      <span class="brand-icon">🕯️</span>
-      <div>
-        <h1>Shawly Sisters</h1>
-        <p class="tagline">Shawly Sisters</p>
-      </div>
-    </div>
+    <a href="#" class="brand" aria-label="Shawly Sisters anasayfa">
+      <img src="logo.jpg" alt="Shawly Sisters" class="brand-logo" />
+      <span class="brand-fallback">Shawly Sisters</span>
+    </a>
     <nav class="nav">
       <a href="#urunler">Ürünler</a>
       <a href="#hakkimda">Hakkımızda</a>
@@ -385,7 +382,7 @@
     <div class="admin-tabs">
       <button class="admin-tab active" data-atab="add">➕ Yeni Ürün Oluştur</button>
       <button class="admin-tab" data-atab="manage">📋 Mevcut Ürünler</button>
-      <button class="admin-tab" data-atab="orders">📦 Siparişler</button>
+      <button class="admin-tab" data-atab="orders">📦 Siparişler <span id="adminOrdersBadge" class="admin-tab-badge" hidden>0</span></button>
     </div>
 
     <div class="admin-pane" data-apane="add">
