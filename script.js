@@ -574,6 +574,10 @@ function renderBundleRows() {
   const wrap = $('#bundleRows');
   if (!wrap) return;
   wrap.innerHTML = '';
+  if (!pendingBundles.length) {
+    wrap.innerHTML = `<div class="dyn-empty">Henüz bundle eklenmedi. Bundle eklemek istemiyorsan boş bırakabilirsin.</div>`;
+    return;
+  }
   pendingBundles.forEach((b, i) => {
     const row = document.createElement('div');
     row.className = 'dyn-row bundle-row';
@@ -591,6 +595,10 @@ function renderVariationRows() {
   const wrap = $('#variationRows');
   if (!wrap) return;
   wrap.innerHTML = '';
+  if (!pendingVariations.length) {
+    wrap.innerHTML = `<div class="dyn-empty">Henüz varyasyon eklenmedi. Aşağıdaki "➕ Varyasyon Ekle" butonuna tıkla.</div>`;
+    return;
+  }
   pendingVariations.forEach((v, i) => {
     const row = document.createElement('div');
     row.className = 'dyn-row variation-row';
