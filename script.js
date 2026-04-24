@@ -243,6 +243,8 @@ function setLanguage(lang) {
   applyTranslations();
   if (typeof renderProducts === 'function') renderProducts();
   if (typeof renderCart === 'function') renderCart();
+  // Eksik çeviri alanlarını yayınlanan products.json'dan tekrar çek
+  if (typeof syncPublishedProducts === 'function') syncPublishedProducts();
   const sel = document.getElementById('langSelect');
   if (sel) sel.value = lang;
 }
@@ -421,10 +423,34 @@ async function syncPublishedProducts() {
     const res = await fetch('./products.json?t=' + Date.now(), { cache: 'no-store' });
     if (!res.ok) return;
     const published = migrateProducts(await res.json());
-    // SADECE yerel liste boşsa ve yayınlanmış liste doluysa onu kullan.
-    // Yerel ürünler ASLA otomatik silinmez/üzerine yazılmaz.
+
+    let changed = false;
+
+    // Yerel liste boşsa, yayınlanan listeyi kullan
     if (products.length === 0 && published.length > 0) {
       products = published;
+      changed = true;
+    } else if (published.length > 0) {
+      // Yayınlanan üründeki çeviri ve kategori alanlarını yerel ürünlere eşle
+      // (yerel düzenlemeleri kaybetmeden — sadece eksik alanları doldur veya kategori adını güncelle)
+      const TRANSLATION_FIELDS = [
+        'name_en', 'name_de', 'name_es',
+        'description_en', 'description_de', 'description_es',
+      ];
+      for (const localP of products) {
+        const pub = published.find(p => p.id === localP.id);
+        if (!pub) continue;
+        for (const f of TRANSLATION_FIELDS) {
+          if (pub[f] && !localP[f]) { localP[f] = pub[f]; changed = true; }
+        }
+        // Kategori yeniden adlandırması: "Özel Tasarım" → "Anma Hediyeliği"
+        if (localP.category === 'Özel Tasarım' && pub.category === 'Anma Hediyeliği') {
+          localP.category = 'Anma Hediyeliği'; changed = true;
+        }
+      }
+    }
+
+    if (changed) {
       save(STORE.products, products);
       renderProducts();
       if (typeof renderAdminList === 'function') renderAdminList();
