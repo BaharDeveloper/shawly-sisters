@@ -334,6 +334,10 @@
           <textarea id="productDesc" rows="6" maxlength="5000" placeholder="Ürün açıklaması (en fazla 5000 karakter)"></textarea>
           <small class="muted"><span id="descCount">0</span> / 5000 karakter</small>
         </label>
+        <label>Amazon Bağlantısı (opsiyonel)
+          <input type="url" id="productAmazonUrl" placeholder="https://www.amazon.com.tr/..." />
+          <small class="muted">Müşteri ürün detayında "Amazon'da Görüntüle" butonu görür.</small>
+        </label>
         <label>Görseller (en fazla 10 adet)
           <input type="file" id="productImage" accept="image/*" multiple />
           <small class="muted">Bilgisayardan birden fazla görsel seçebilirsin (Ctrl/Shift ile çoklu seçim).</small>
@@ -341,7 +345,7 @@
         </label>
         <div id="imagePreviewWrap" class="image-preview-grid" hidden></div>
         <div class="form-actions">
-          <button type="submit" class="btn primary" id="saveProductBtn">Ürünü Ekle</button>
+          <button type="submit" class="btn primary" id="saveProductBtn">Ürünü Kaydet</button>
           <button type="button" id="cancelEditBtn" class="btn ghost" hidden>İptal</button>
         </div>
       </form>
@@ -356,6 +360,42 @@
     <div class="admin-pane" data-apane="orders" hidden>
       <h4 class="admin-list-title">Gelen Siparişler</h4>
       <div id="adminOrdersList" class="admin-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Ürün Detay -->
+<div id="productDetailModal" class="modal" aria-hidden="true">
+  <div class="modal-card wide product-detail-card">
+    <button class="close-btn" data-close="productDetailModal" aria-label="Kapat">×</button>
+    <div class="product-detail">
+      <div class="pd-gallery">
+        <div class="pd-main-img" id="pdMainImg">
+          <img id="pdMainImgEl" src="" alt="" />
+        </div>
+        <div class="pd-thumbs" id="pdThumbs"></div>
+      </div>
+      <div class="pd-info">
+        <h2 id="pdName"></h2>
+        <div class="pd-price-row">
+          <div>
+            <div class="pd-price" id="pdPrice"></div>
+            <small class="muted">Kargo Dahil Fiyat</small>
+          </div>
+        </div>
+        <div class="pd-section">
+          <h4>Açıklama</h4>
+          <p id="pdDesc" class="pd-desc"></p>
+        </div>
+        <div class="pd-section pd-shipping">
+          <h4>📦 Teslimat</h4>
+          <p>Tahmini 3 iş günü içinde kargoya verilir.</p>
+        </div>
+        <a id="pdAmazonBtn" class="btn ghost block amazon-btn" href="#" target="_blank" rel="noopener" hidden>
+          🛒 Amazon'da Görüntüle
+        </a>
+        <button id="pdAddCartBtn" class="btn primary block">Sepete Ekle</button>
+      </div>
     </div>
   </div>
 </div>

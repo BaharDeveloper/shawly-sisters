@@ -100,15 +100,14 @@ function renderProducts() {
       ? `<span class="image-count-badge">📷 ${imgs.length}</span>` : '';
 
     card.innerHTML = `
-      <div class="product-img" data-gallery="${p.id}" style="cursor:${imgs.length ? 'zoom-in' : 'default'};">
+      <div class="product-img" data-detail="${p.id}" style="cursor:pointer;">
         ${main
           ? `<img src="${escapeAttr(main)}" alt="${escapeAttr(p.name)}" />`
           : `<div class="placeholder">🕯️</div>`}
         ${countBadge}
       </div>
-      <div class="product-body">
+      <div class="product-body" data-detail="${p.id}" style="cursor:pointer;">
         <h4 class="product-name"></h4>
-        <p class="product-desc"></p>
         <div class="product-foot">
           <div>
             <span class="product-price">${fmtPrice(totalPrice)}</span>
@@ -119,9 +118,6 @@ function renderProducts() {
       </div>
     `;
     card.querySelector('.product-name').textContent = p.name;
-    const descEl = card.querySelector('.product-desc');
-    const desc = p.description || '';
-    descEl.textContent = desc.length > 140 ? desc.slice(0, 140) + '…' : desc;
     grid.appendChild(card);
   }
 }
@@ -444,9 +440,10 @@ function resetProductForm() {
   $('#productDesc').value = '';
   $('#productImage').value = '';
   $('#productImageUrl').value = '';
+  $('#productAmazonUrl').value = '';
   $('#descCount').textContent = '0';
   renderImagePreviews();
-  $('#saveProductBtn').textContent = 'Ürünü Ekle';
+  $('#saveProductBtn').textContent = 'Ürünü Kaydet';
   $('#cancelEditBtn').hidden = true;
 }
 
@@ -458,6 +455,7 @@ function fillProductForm(p) {
   $('#productPrice').value = p.price;
   $('#productDesc').value = p.description || '';
   $('#descCount').textContent = (p.description || '').length;
+  $('#productAmazonUrl').value = p.amazonUrl || '';
   // Sadece http URL'lerini textarea'ya yaz (data URL'ler önizleme yeterli)
   const urls = pendingImages.filter(s => !s.startsWith('data:'));
   $('#productImageUrl').value = urls.join('\n');
@@ -588,6 +586,7 @@ async function handleProductSubmit(e) {
   const name = $('#productName').value.trim();
   const price = parseFloat($('#productPrice').value);
   const description = $('#productDesc').value.trim();
+  const amazonUrl = $('#productAmazonUrl').value.trim();
   if (!name || isNaN(price) || price < 0) { alert('Lütfen ad ve geçerli bir fiyat gir.'); return; }
   if (name.length > 200) { alert('Ürün adı en fazla 200 karakter olabilir.'); return; }
   if (description.length > 5000) { alert('Açıklama en fazla 5000 karakter olabilir.'); return; }
@@ -604,12 +603,12 @@ async function handleProductSubmit(e) {
   if (editingId) {
     const idx = products.findIndex(p => p.id === editingId);
     if (idx !== -1) {
-      products[idx] = { ...products[idx], name, price, description, images };
+      products[idx] = { ...products[idx], name, price, description, images, amazonUrl };
       delete products[idx].image;
     }
     toast('Ürün güncellendi');
   } else {
-    products.push({ id: uid(), name, price, description, images });
+    products.push({ id: uid(), name, price, description, images, amazonUrl });
     toast('Ürün eklendi');
   }
   save(STORE.products, products);
@@ -989,7 +988,7 @@ $('#ccCvv').addEventListener('input', (e) => { e.target.value = e.target.value.r
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeCart();
-    ['loginModal','adminModal','authModal','accountModal','checkoutModal','successModal','ordersModal','forgotModal']
+    ['loginModal','adminModal','authModal','accountModal','checkoutModal','successModal','ordersModal','forgotModal','productDetailModal']
       .forEach(closeModal);
   }
 });
@@ -997,6 +996,74 @@ document.addEventListener('keydown', (e) => {
 // Modalı dışına tıklayınca kapat
 $$('.modal').forEach(m => {
   m.addEventListener('click', (e) => { if (e.target === m) closeModal(m.id); });
+});
+
+// --- Ürün Detayı ---
+let pdImages = [];
+let pdIndex = 0;
+let pdProductId = null;
+
+function openProductDetail(productId) {
+  const p = products.find(x => x.id === productId);
+  if (!p) return;
+  pdProductId = p.id;
+  pdImages = imageList(p);
+  pdIndex = 0;
+
+  $('#pdName').textContent = p.name;
+  $('#pdPrice').textContent = fmtPrice(Number(p.price || 0));
+  $('#pdDesc').textContent = p.description || 'Açıklama eklenmemiş.';
+
+  const amazonBtn = $('#pdAmazonBtn');
+  if (p.amazonUrl) {
+    amazonBtn.href = p.amazonUrl;
+    amazonBtn.hidden = false;
+  } else {
+    amazonBtn.hidden = true;
+  }
+
+  renderProductDetailGallery();
+  openModal('productDetailModal');
+}
+
+function renderProductDetailGallery() {
+  const main = pdImages[pdIndex] || '';
+  const mainImg = $('#pdMainImgEl');
+  if (main) {
+    mainImg.src = main;
+    mainImg.alt = $('#pdName').textContent;
+    $('#pdMainImg').style.display = 'flex';
+  } else {
+    mainImg.removeAttribute('src');
+    $('#pdMainImg').style.display = 'none';
+  }
+
+  const thumbs = $('#pdThumbs');
+  thumbs.innerHTML = '';
+  if (pdImages.length > 1) {
+    pdImages.forEach((src, i) => {
+      const t = document.createElement('div');
+      t.className = 'pd-thumb' + (i === pdIndex ? ' active' : '');
+      t.innerHTML = `<img src="${escapeAttr(src)}" alt="" />`;
+      t.addEventListener('click', () => { pdIndex = i; renderProductDetailGallery(); });
+      thumbs.appendChild(t);
+    });
+  }
+}
+
+$('#pdMainImg').addEventListener('click', () => {
+  if (pdProductId) openGallery(pdProductId);
+});
+
+$('#pdAddCartBtn').addEventListener('click', () => {
+  if (pdProductId) addToCart(pdProductId);
+});
+
+// Ürün kartına tıklayınca detayı aç (sepete ekle butonuna tıklanmadıkça)
+document.addEventListener('click', (e) => {
+  if (e.target.closest('[data-add]')) return;
+  const det = e.target.closest('[data-detail]');
+  if (det) openProductDetail(det.dataset.detail);
 });
 
 // --- Lightbox (Galeri) ---
