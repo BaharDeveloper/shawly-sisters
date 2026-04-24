@@ -55,15 +55,22 @@ body {
   padding: 14px 0;
 }
 .brand {
-  display: flex; align-items: center; gap: 10px;
+  display: flex; align-items: center; gap: 12px;
   text-decoration: none; color: inherit;
 }
 .brand-logo {
-  height: 56px; width: auto; max-width: 240px;
+  height: 56px; width: auto; max-width: 80px;
   display: block; object-fit: contain;
   mix-blend-mode: multiply;
 }
-.brand-fallback { display: none; }
+.brand-name {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  color: var(--accent-dark);
+  white-space: nowrap;
+}
 
 .nav { display: flex; align-items: center; gap: 18px; }
 .nav a {
@@ -936,7 +943,8 @@ form input:focus, form textarea:focus {
 @media (max-width: 640px) {
   .nav { gap: 8px; }
   .nav a { display: none; }
-  .brand-logo { height: 42px; max-width: 160px; }
+  .brand-logo { height: 42px; max-width: 56px; }
+  .brand-name { font-size: 16px; letter-spacing: 1px; }
   .header-inner { padding: 10px 0; }
   .icon-btn { padding: 7px 12px; font-size: 13px; }
 
@@ -1065,6 +1073,7 @@ form input:focus, form textarea:focus {
 
 /* Çok küçük ekranlar (380px ve aşağı) */
 @media (max-width: 380px) {
+  .brand-name { display: none; }
   .product-grid { gap: 8px; }
   .product-name { font-size: 13px; }
   .icon-btn { padding: 6px 10px; font-size: 12px; }
