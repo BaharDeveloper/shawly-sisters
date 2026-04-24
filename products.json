@@ -16,8 +16,8 @@
     "bundles": [
       { "id": "bndl_pash_1", "label": "1 Adet (Tekli)", "qty": 1, "price": 5.99 },
       { "id": "bndl_pash_25", "label": "25 Adet (Bulk)", "qty": 25, "price": 119.99 },
-      { "id": "bndl_pash_50", "label": "50 Adet", "qty": 50, "price": 228.00 },
-      { "id": "bndl_pash_100", "label": "100 Adet", "qty": 100, "price": 441.00 }
+      { "id": "bndl_pash_50", "label": "50 Adet", "qty": 50, "price": 299.50 },
+      { "id": "bndl_pash_100", "label": "100 Adet", "qty": 100, "price": 599.00 }
     ],
     "variations": [
       {
@@ -42,9 +42,9 @@
     "amazonUrl": "https://www.amazon.com/stores/ShawlySisters/page/7D684352-F15A-429D-9732-9E5904129751",
     "bundles": [
       { "id": "bndl_srnk_1", "label": "1 Adet (Tekli)", "qty": 1, "price": 2.49 },
-      { "id": "bndl_srnk_25", "label": "25 Adet", "qty": 25, "price": 56.00 },
-      { "id": "bndl_srnk_50", "label": "50 Adet", "qty": 50, "price": 106.00 },
-      { "id": "bndl_srnk_100", "label": "100 Adet", "qty": 100, "price": 199.00 }
+      { "id": "bndl_srnk_25", "label": "25 Adet", "qty": 25, "price": 62.25 },
+      { "id": "bndl_srnk_50", "label": "50 Adet", "qty": 50, "price": 124.50 },
+      { "id": "bndl_srnk_100", "label": "100 Adet", "qty": 100, "price": 249.00 }
     ],
     "variations": [
       {
@@ -68,9 +68,9 @@
     "amazonUrl": "https://www.amazon.com/stores/ShawlySisters/page/7D684352-F15A-429D-9732-9E5904129751",
     "bundles": [
       { "id": "bndl_strk_1", "label": "1 Adet (Tekli)", "qty": 1, "price": 1.89 },
-      { "id": "bndl_strk_25", "label": "25 Adet", "qty": 25, "price": 43.00 },
-      { "id": "bndl_strk_50", "label": "50 Adet", "qty": 50, "price": 80.00 },
-      { "id": "bndl_strk_100", "label": "100 Adet", "qty": 100, "price": 151.00 }
+      { "id": "bndl_strk_25", "label": "25 Adet", "qty": 25, "price": 47.25 },
+      { "id": "bndl_strk_50", "label": "50 Adet", "qty": 50, "price": 94.50 },
+      { "id": "bndl_strk_100", "label": "100 Adet", "qty": 100, "price": 189.00 }
     ],
     "variations": [
       {
@@ -95,9 +95,9 @@
     "amazonUrl": "https://www.amazon.com/stores/ShawlySisters/page/7D684352-F15A-429D-9732-9E5904129751",
     "bundles": [
       { "id": "bndl_sil_10", "label": "10 Adet", "qty": 10, "price": 24.99 },
-      { "id": "bndl_sil_25", "label": "25 Adet", "qty": 25, "price": 59.00 },
-      { "id": "bndl_sil_50", "label": "50 Adet", "qty": 50, "price": 115.00 },
-      { "id": "bndl_sil_100", "label": "100 Adet", "qty": 100, "price": 225.00 }
+      { "id": "bndl_sil_25", "label": "25 Adet", "qty": 25, "price": 62.50 },
+      { "id": "bndl_sil_50", "label": "50 Adet", "qty": 50, "price": 125.00 },
+      { "id": "bndl_sil_100", "label": "100 Adet", "qty": 100, "price": 250.00 }
     ],
     "variations": [
       {
@@ -122,9 +122,9 @@
     "bundles": [
       { "id": "bndl_wm_1", "label": "1 Adet (Tekli)", "qty": 1, "price": 2.79 },
       { "id": "bndl_wm_20", "label": "20 Adet (Heart Shape)", "qty": 20, "price": 11.99 },
-      { "id": "bndl_wm_25", "label": "25 Adet", "qty": 25, "price": 63.00 },
-      { "id": "bndl_wm_50", "label": "50 Adet", "qty": 50, "price": 119.00 },
-      { "id": "bndl_wm_100", "label": "100 Adet", "qty": 100, "price": 223.00 }
+      { "id": "bndl_wm_25", "label": "25 Adet", "qty": 25, "price": 69.75 },
+      { "id": "bndl_wm_50", "label": "50 Adet", "qty": 50, "price": 139.50 },
+      { "id": "bndl_wm_100", "label": "100 Adet", "qty": 100, "price": 279.00 }
     ],
     "variations": [
       {
@@ -148,9 +148,9 @@
     "amazonUrl": "https://www.amazon.com/stores/ShawlySisters/page/7D684352-F15A-429D-9732-9E5904129751",
     "bundles": [
       { "id": "bndl_yp_1", "label": "1 Adet (Tekli)", "qty": 1, "price": 2.49 },
-      { "id": "bndl_yp_25", "label": "25 Adet", "qty": 25, "price": 56.00 },
-      { "id": "bndl_yp_50", "label": "50 Adet", "qty": 50, "price": 106.00 },
-      { "id": "bndl_yp_100", "label": "100 Adet", "qty": 100, "price": 199.00 }
+      { "id": "bndl_yp_25", "label": "25 Adet", "qty": 25, "price": 62.25 },
+      { "id": "bndl_yp_50", "label": "50 Adet", "qty": 50, "price": 124.50 },
+      { "id": "bndl_yp_100", "label": "100 Adet", "qty": 100, "price": 249.00 }
     ],
     "variations": [
       {
@@ -208,9 +208,9 @@
     "amazonUrl": "https://www.amazon.com/stores/ShawlySisters/page/7D684352-F15A-429D-9732-9E5904129751",
     "bundles": [
       { "id": "bndl_cn_10", "label": "10 Adet", "qty": 10, "price": 24.99 },
-      { "id": "bndl_cn_25", "label": "25 Adet", "qty": 25, "price": 59.00 },
-      { "id": "bndl_cn_50", "label": "50 Adet", "qty": 50, "price": 115.00 },
-      { "id": "bndl_cn_100", "label": "100 Adet", "qty": 100, "price": 225.00 }
+      { "id": "bndl_cn_25", "label": "25 Adet", "qty": 25, "price": 62.50 },
+      { "id": "bndl_cn_50", "label": "50 Adet", "qty": 50, "price": 125.00 },
+      { "id": "bndl_cn_100", "label": "100 Adet", "qty": 100, "price": 250.00 }
     ],
     "variations": [
       {
