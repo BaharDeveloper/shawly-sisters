@@ -683,8 +683,21 @@ function deleteProduct(id) {
 // --- Modal & Panel ---
 function openModal(id) { $('#' + id).classList.add('open'); $('#' + id).setAttribute('aria-hidden','false'); }
 function closeModal(id) { $('#' + id).classList.remove('open'); $('#' + id).setAttribute('aria-hidden','true'); }
-function openCart() { $('#cartPanel').classList.add('open'); $('#cartPanel').setAttribute('aria-hidden','false'); }
-function closeCart() { $('#cartPanel').classList.remove('open'); $('#cartPanel').setAttribute('aria-hidden','true'); }
+function openCart() {
+  $('#cartPanel').classList.add('open');
+  $('#cartPanel').setAttribute('aria-hidden','false');
+  document.body.classList.add('cart-open');
+}
+function closeCart() {
+  $('#cartPanel').classList.remove('open');
+  $('#cartPanel').setAttribute('aria-hidden','true');
+  document.body.classList.remove('cart-open');
+}
+function exitCartToHome() {
+  closeCart();
+  // Ana sayfaya kaydır
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 // --- Checkout ---
 function openCheckout() {
@@ -866,6 +879,8 @@ document.addEventListener('click', (e) => {
 $('#cartBtn').addEventListener('click', openCart);
 const fcBtn = document.getElementById('floatingCartBtn');
 if (fcBtn) fcBtn.addEventListener('click', openCart);
+const cartBackBtn = document.getElementById('cartBackBtn');
+if (cartBackBtn) cartBackBtn.addEventListener('click', exitCartToHome);
 
 $('#loginBtn').addEventListener('click', () => openAuthModal('login'));
 $('#registerBtn').addEventListener('click', () => openAuthModal('register'));
