@@ -206,10 +206,10 @@ const VARIATION_KEY = {
   "Renk": "var_renk", "Koku": "var_koku", "Desen": "var_desen", "Folyo & Kutu": "var_folyo"
 };
 
-let currentLang = localStorage.getItem('ma_lang') || 'tr';
+let currentLang = localStorage.getItem('ma_lang') || 'en';
 
 function t(key) {
-  return (I18N[currentLang] && I18N[currentLang][key]) || (I18N.tr[key] || key);
+  return (I18N[currentLang] && I18N[currentLang][key]) || (I18N.en[key] || I18N.tr[key] || key);
 }
 
 function localizedCategory(cat) {
@@ -237,7 +237,7 @@ function applyTranslations() {
 }
 
 function setLanguage(lang) {
-  if (!I18N[lang]) lang = 'tr';
+  if (!I18N[lang]) lang = 'en';
   currentLang = lang;
   localStorage.setItem('ma_lang', lang);
   applyTranslations();
