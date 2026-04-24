@@ -17,6 +17,13 @@
 * { box-sizing: border-box; }
 
 html, body { margin: 0; padding: 0; }
+html { overflow-x: hidden; -webkit-text-size-adjust: 100%; }
+body { overflow-x: hidden; min-width: 0; }
+img { max-width: 100%; height: auto; }
+@media (max-width: 768px) {
+  /* iOS Safari'nin input'larda otomatik zoom yapmasını engelle */
+  form input, form textarea, form select { font-size: 16px !important; }
+}
 
 body {
   font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
@@ -707,12 +714,6 @@ form input:focus, form textarea:focus {
   font-size: 36px; margin: 0 auto 14px;
 }
 
-@media (max-width: 640px) {
-  .form-grid { grid-template-columns: 1fr; }
-  .checkout-row { flex-direction: column; align-items: stretch; }
-  .checkout-row .btn { width: 100%; }
-}
-
 /* Yüzen sepet butonu */
 .floating-cart {
   position: fixed; right: 22px; bottom: 22px;
@@ -740,10 +741,141 @@ form input:focus, form textarea:focus {
   z-index: 100;
 }
 
-/* Responsive */
-@media (max-width: 640px) {
-  .nav { gap: 10px; }
-  .nav a { display: none; }
-  .brand h1 { font-size: 18px; }
-  .tagline { display: none; }
+/* === RESPONSIVE === */
+
+/* Tablet ve daha küçük (768px ve aşağı) */
+@media (max-width: 768px) {
+  .container { width: 94%; }
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 14px;
+  }
+  .hero { padding: 36px 0 24px; }
+  .product-detail { grid-template-columns: 1fr; }
+  .pd-gallery { border-radius: var(--radius) var(--radius) 0 0; }
+  .form-grid { grid-template-columns: 1fr; gap: 14px; }
 }
+
+/* Telefon (640px ve aşağı) */
+@media (max-width: 640px) {
+  .nav { gap: 8px; }
+  .nav a { display: none; }
+  .brand-icon { font-size: 26px; }
+  .brand h1 { font-size: 17px; }
+  .tagline { display: none; }
+  .header-inner { padding: 10px 0; }
+  .icon-btn { padding: 7px 12px; font-size: 13px; }
+
+  .hero { padding: 30px 0 20px; }
+  .hero h2 { font-size: clamp(22px, 6vw, 32px); }
+  .hero-title { font-size: clamp(38px, 12vw, 60px) !important; letter-spacing: clamp(1px, 0.4vw, 4px) !important; margin: 0 0 18px !important; }
+
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .product-card { border-radius: 12px; }
+  .product-name { font-size: 14px; }
+  .product-price { font-size: 15px; }
+  .product-body { padding: 10px 12px 12px; gap: 6px; }
+  .product-foot { gap: 6px; flex-wrap: wrap; }
+  .product-foot .btn.small { padding: 6px 10px; font-size: 12px; }
+
+  .section-head h3 { font-size: 22px; }
+
+  /* Sepet panelinde okunaklı boşluklar */
+  .panel-head { padding: 14px 16px; }
+  .panel-head h3 { font-size: 18px; }
+  .cart-items, .cart-foot { padding-left: 16px !important; padding-right: 16px !important; }
+  .cart-item { grid-template-columns: 50px 1fr auto; gap: 10px; }
+  .cart-item img { width: 50px; height: 50px; }
+
+  .checkout-row { flex-direction: column; align-items: stretch; gap: 10px; }
+  .checkout-row .btn { width: 100%; }
+  .total-block strong { font-size: 18px; }
+
+  /* Yüzen sepet butonu kompakt */
+  .floating-cart {
+    right: 14px; bottom: 14px;
+    padding: 12px 16px; font-size: 14px;
+  }
+  .fc-icon { font-size: 18px; }
+  .floating-cart .fc-label { display: none; }
+  .fc-count { padding: 1px 7px; font-size: 12px; min-width: 20px; }
+
+  /* Modal kart genişliği ve iç boşluk */
+  .modal { padding: 8px; }
+  .modal-card { padding: 18px 16px; border-radius: 12px; }
+  .modal-card h3 { font-size: 19px; }
+  .modal-card.wide { width: 100%; }
+
+  /* Ürün detay sayfası */
+  .pd-info { padding: 18px 16px; gap: 12px; }
+  .pd-info h2 { font-size: 20px; }
+  .pd-price { font-size: 22px; }
+  .pd-gallery { padding: 16px; }
+  .pd-thumbs { grid-template-columns: repeat(4, 1fr); }
+  .pd-bundle { flex: 1 1 100%; }
+
+  /* Admin / dinamik form satırları (bundle, varyasyon) tek sütuna */
+  .dyn-row.bundle-row,
+  .dyn-row.variation-row {
+    grid-template-columns: 1fr 36px;
+    grid-auto-flow: row;
+  }
+  .dyn-row.bundle-row input,
+  .dyn-row.variation-row input { grid-column: 1; }
+  .dyn-row.bundle-row .dyn-remove,
+  .dyn-row.variation-row .dyn-remove {
+    grid-column: 2; grid-row: 1; align-self: start;
+  }
+
+  /* Admin panel sekmeleri yatayda kayan */
+  .admin-tabs { overflow-x: auto; flex-wrap: nowrap; }
+  .admin-tab { white-space: nowrap; padding: 8px 12px; font-size: 13px; }
+  .admin-item { grid-template-columns: 50px 1fr; gap: 10px; }
+  .admin-item img { width: 50px; height: 50px; }
+  .admin-item .ai-price { grid-column: 1 / -1; text-align: left; font-size: 15px; }
+  .admin-item > div:last-child {
+    grid-column: 1 / -1;
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+
+  /* Lightbox kontrolleri kompakt */
+  .lightbox-nav { width: 40px; height: 40px; font-size: 20px; }
+  .lightbox-nav.prev { left: 8px; }
+  .lightbox-nav.next { right: 8px; }
+  .lightbox-thumb { width: 50px; height: 50px; }
+  .lightbox-counter { top: 14px; left: 14px; font-size: 13px; }
+  .lightbox-close { top: 10px; right: 12px; font-size: 30px; }
+
+  /* İletişim kartları tek sütun */
+  .contact-grid { grid-template-columns: 1fr; }
+
+  /* Fieldset paddingleri */
+  .dynamic-section { padding: 14px; }
+  .dynamic-section legend { font-size: 13px; padding: 3px 10px; }
+  .add-row-btn { width: 100%; justify-content: center; }
+  .form-grid fieldset { padding: 12px 14px; }
+
+  /* Görsel önizleme grid */
+  .image-preview-grid { grid-template-columns: repeat(3, 1fr); }
+
+  /* Hero CTA buton */
+  .hero .btn { padding: 10px 18px; font-size: 14px; }
+
+  /* About / iletişim kart paddingleri */
+  .about, .contact { padding: 18px; }
+}
+
+/* Çok küçük ekranlar (380px ve aşağı) */
+@media (max-width: 380px) {
+  .product-grid { gap: 8px; }
+  .product-name { font-size: 13px; }
+  .icon-btn { padding: 6px 10px; font-size: 12px; }
+  #cartBtn { padding: 6px 10px; }
+  .badge { padding: 0 5px; font-size: 11px; }
+  .modal-card { padding: 14px 12px; }
+  .image-preview-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
