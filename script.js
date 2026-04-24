@@ -58,13 +58,34 @@ let editingId = null;
 let pendingImages = []; // Ürün formundaki seçili görseller (data URL veya http URL)
 const MAX_IMAGES = 10;
 
-// Eski tek-görsel ürünleri çoklu görsel formatına çevir
-products = products.map(p => {
-  if (p.images && Array.isArray(p.images)) return p;
-  if (p.image) return { ...p, images: [p.image] };
-  return { ...p, images: [] };
-});
+function migrateProducts(list) {
+  return list.map(p => {
+    if (p.images && Array.isArray(p.images)) return p;
+    if (p.image) return { ...p, images: [p.image] };
+    return { ...p, images: [] };
+  });
+}
+
+products = migrateProducts(products);
 save(STORE.products, products);
+
+// Paylaşılan ürün listesini repo'daki products.json'dan yükle.
+// Eğer admin değilsen veya henüz yerel ürün eklemediysen, yayınlanan listeyi gösteririz.
+// Admin'sen kendi yerel değişikliklerini görmeye devam edersin.
+async function syncPublishedProducts() {
+  try {
+    const res = await fetch('./products.json?t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) return;
+    const published = migrateProducts(await res.json());
+    // Yerel ürünler boşsa veya admin değilsek yayınlanan listeyi kullan
+    if (!isAdmin() || products.length === 0) {
+      products = published;
+      save(STORE.products, products);
+      renderProducts();
+      if (typeof renderAdminList === 'function') renderAdminList();
+    }
+  } catch (e) { /* products.json yoksa veya file:// üzerinde isek sessizce geç */ }
+}
 
 function firstImage(p) {
   if (p.images && p.images.length) return p.images[0];
@@ -1123,8 +1144,27 @@ document.addEventListener('keydown', (e) => {
   else if (e.key === 'Escape') closeLightbox();
 });
 
+// Yayınla butonu: admin'in yerel ürün listesini products.json olarak indirir
+function publishProducts() {
+  const json = JSON.stringify(products, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'products.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  toast('products.json indirildi. Bu dosyayı bana iletirsen yayınlarım.');
+}
+
+const publishBtn = document.getElementById('publishBtn');
+if (publishBtn) publishBtn.addEventListener('click', publishProducts);
+
 // İlk yükleme
 $('#year').textContent = new Date().getFullYear();
 renderProducts();
 renderCart();
 refreshUserUi();
+syncPublishedProducts();
