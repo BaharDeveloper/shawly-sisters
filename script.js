@@ -55,6 +55,25 @@ let products = load(STORE.products, []);
 let cart = load(STORE.cart, []);
 let users = load(STORE.users, []);
 let editingId = null;
+let pendingImages = []; // Ürün formundaki seçili görseller (data URL veya http URL)
+const MAX_IMAGES = 10;
+
+// Eski tek-görsel ürünleri çoklu görsel formatına çevir
+products = products.map(p => {
+  if (p.images && Array.isArray(p.images)) return p;
+  if (p.image) return { ...p, images: [p.image] };
+  return { ...p, images: [] };
+});
+save(STORE.products, products);
+
+function firstImage(p) {
+  if (p.images && p.images.length) return p.images[0];
+  return p.image || '';
+}
+function imageList(p) {
+  if (p.images && p.images.length) return p.images;
+  return p.image ? [p.image] : [];
+}
 
 function currentUser() {
   const id = sessionStorage.getItem(STORE.userSession);
@@ -75,12 +94,17 @@ function renderProducts() {
     const card = document.createElement('article');
     card.className = 'product-card';
     const totalPrice = Number(p.price || 0);
+    const imgs = imageList(p);
+    const main = imgs[0] || '';
+    const countBadge = imgs.length > 1
+      ? `<span class="image-count-badge">📷 ${imgs.length}</span>` : '';
 
     card.innerHTML = `
-      <div class="product-img">
-        ${p.image
-          ? `<img src="${escapeAttr(p.image)}" alt="${escapeAttr(p.name)}" />`
+      <div class="product-img" data-gallery="${p.id}" style="cursor:${imgs.length ? 'zoom-in' : 'default'};">
+        ${main
+          ? `<img src="${escapeAttr(main)}" alt="${escapeAttr(p.name)}" />`
           : `<div class="placeholder">🕯️</div>`}
+        ${countBadge}
       </div>
       <div class="product-body">
         <h4 class="product-name"></h4>
@@ -95,7 +119,9 @@ function renderProducts() {
       </div>
     `;
     card.querySelector('.product-name').textContent = p.name;
-    card.querySelector('.product-desc').textContent = p.description || '';
+    const descEl = card.querySelector('.product-desc');
+    const desc = p.description || '';
+    descEl.textContent = desc.length > 140 ? desc.slice(0, 140) + '…' : desc;
     grid.appendChild(card);
   }
 }
@@ -155,8 +181,9 @@ function renderCart() {
 
     const row = document.createElement('div');
     row.className = 'cart-item';
+    const cartImg = firstImage(p);
     row.innerHTML = `
-      ${p.image ? `<img src="${escapeAttr(p.image)}" alt="" />` : `<div style="width:56px;height:56px;display:flex;align-items:center;justify-content:center;background:var(--bg-soft);border-radius:10px;">🕯️</div>`}
+      ${cartImg ? `<img src="${escapeAttr(cartImg)}" alt="" />` : `<div style="width:56px;height:56px;display:flex;align-items:center;justify-content:center;background:var(--bg-soft);border-radius:10px;">🕯️</div>`}
       <div>
         <div class="ci-name"></div>
         <div class="ci-price">${fmtPrice(unit)} <small class="muted">(kargo dahil)</small></div>
@@ -410,30 +437,64 @@ function uid() { return 'p_' + Math.random().toString(36).slice(2, 10) + Date.no
 
 function resetProductForm() {
   editingId = null;
+  pendingImages = [];
   $('#productId').value = '';
   $('#productName').value = '';
   $('#productPrice').value = '';
   $('#productDesc').value = '';
   $('#productImage').value = '';
   $('#productImageUrl').value = '';
-  $('#imagePreview').src = '';
-  $('#imagePreviewWrap').hidden = true;
+  $('#descCount').textContent = '0';
+  renderImagePreviews();
   $('#saveProductBtn').textContent = 'Ürünü Ekle';
   $('#cancelEditBtn').hidden = true;
 }
 
 function fillProductForm(p) {
   editingId = p.id;
+  pendingImages = [...imageList(p)];
   $('#productId').value = p.id;
   $('#productName').value = p.name;
   $('#productPrice').value = p.price;
   $('#productDesc').value = p.description || '';
-  $('#productImageUrl').value = (p.image && !p.image.startsWith('data:')) ? p.image : '';
-  if (p.image) { $('#imagePreview').src = p.image; $('#imagePreviewWrap').hidden = false; }
-  else { $('#imagePreviewWrap').hidden = true; }
+  $('#descCount').textContent = (p.description || '').length;
+  // Sadece http URL'lerini textarea'ya yaz (data URL'ler önizleme yeterli)
+  const urls = pendingImages.filter(s => !s.startsWith('data:'));
+  $('#productImageUrl').value = urls.join('\n');
+  $('#productImage').value = '';
+  renderImagePreviews();
   $('#saveProductBtn').textContent = 'Değişiklikleri Kaydet';
   $('#cancelEditBtn').hidden = false;
   switchAdminTab('add');
+}
+
+function renderImagePreviews() {
+  const wrap = $('#imagePreviewWrap');
+  wrap.innerHTML = '';
+  if (!pendingImages.length) { wrap.hidden = true; return; }
+  wrap.hidden = false;
+  pendingImages.forEach((src, idx) => {
+    const item = document.createElement('div');
+    item.className = 'image-preview-item';
+    item.innerHTML = `
+      <img src="${escapeAttr(src)}" alt="" />
+      <button type="button" class="image-preview-remove" data-rmimg="${idx}" aria-label="Kaldır">×</button>
+      ${idx === 0 ? `<span class="image-preview-badge">Kapak</span>` : ''}
+    `;
+    wrap.appendChild(item);
+  });
+}
+
+function addPendingImages(items) {
+  for (const src of items) {
+    if (!src) continue;
+    if (pendingImages.length >= MAX_IMAGES) {
+      toast(`En fazla ${MAX_IMAGES} görsel ekleyebilirsin.`);
+      break;
+    }
+    pendingImages.push(src);
+  }
+  renderImagePreviews();
 }
 
 function renderAdminList() {
@@ -444,11 +505,13 @@ function renderAdminList() {
     const total = Number(p.price || 0);
     const row = document.createElement('div');
     row.className = 'admin-item';
+    const adminImg = firstImage(p);
+    const imgs = imageList(p);
     row.innerHTML = `
-      ${p.image ? `<img src="${escapeAttr(p.image)}" alt="" />` : `<div style="width:56px;height:56px;background:var(--bg-soft);border-radius:8px;display:flex;align-items:center;justify-content:center;">🕯️</div>`}
+      ${adminImg ? `<img src="${escapeAttr(adminImg)}" alt="" />` : `<div style="width:56px;height:56px;background:var(--bg-soft);border-radius:8px;display:flex;align-items:center;justify-content:center;">🕯️</div>`}
       <div>
         <div class="ai-name"></div>
-        <div class="muted">Kargo Dahil Fiyat</div>
+        <div class="muted">Kargo Dahil Fiyat${imgs.length > 1 ? ` · 📷 ${imgs.length}` : ''}</div>
       </div>
       <div class="ai-price">${fmtPrice(total)}</div>
       <div style="display:flex;gap:6px;">
@@ -525,22 +588,28 @@ async function handleProductSubmit(e) {
   const name = $('#productName').value.trim();
   const price = parseFloat($('#productPrice').value);
   const description = $('#productDesc').value.trim();
-  const file = $('#productImage').files[0];
-  const url = $('#productImageUrl').value.trim();
   if (!name || isNaN(price) || price < 0) { alert('Lütfen ad ve geçerli bir fiyat gir.'); return; }
-  let image = '';
-  if (file) image = await fileToDataUrl(file);
-  else if (url) image = url;
-  else if (editingId) {
-    const existing = products.find(p => p.id === editingId);
-    image = existing?.image || '';
+  if (name.length > 200) { alert('Ürün adı en fazla 200 karakter olabilir.'); return; }
+  if (description.length > 5000) { alert('Açıklama en fazla 5000 karakter olabilir.'); return; }
+
+  // URL textarea'sındaki URL'leri pendingImages'a ekle (henüz eklenmemiş olanları)
+  const urlText = $('#productImageUrl').value.trim();
+  const urls = urlText ? urlText.split(/\r?\n/).map(s => s.trim()).filter(Boolean) : [];
+  const merged = [];
+  for (const src of [...pendingImages.filter(s => s.startsWith('data:')), ...urls]) {
+    if (!merged.includes(src)) merged.push(src);
   }
+  const images = merged.slice(0, MAX_IMAGES);
+
   if (editingId) {
     const idx = products.findIndex(p => p.id === editingId);
-    if (idx !== -1) products[idx] = { ...products[idx], name, price, description, image };
+    if (idx !== -1) {
+      products[idx] = { ...products[idx], name, price, description, images };
+      delete products[idx].image;
+    }
     toast('Ürün güncellendi');
   } else {
-    products.push({ id: uid(), name, price, description, image });
+    products.push({ id: uid(), name, price, description, images });
     toast('Ürün eklendi');
   }
   save(STORE.products, products);
@@ -880,16 +949,31 @@ $('#productForm').addEventListener('submit', handleProductSubmit);
 $('#cancelEditBtn').addEventListener('click', resetProductForm);
 $('#logoutBtn').addEventListener('click', adminLogout);
 
-// Görsel önizleme
+// Görsel önizleme (çoklu)
 $('#productImage').addEventListener('change', async (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-  const data = await fileToDataUrl(file);
-  $('#imagePreview').src = data; $('#imagePreviewWrap').hidden = false;
+  const files = Array.from(e.target.files || []);
+  if (!files.length) return;
+  const dataUrls = [];
+  for (const file of files) {
+    const d = await fileToDataUrl(file);
+    dataUrls.push(d);
+  }
+  addPendingImages(dataUrls);
+  e.target.value = '';
 });
-$('#productImageUrl').addEventListener('input', (e) => {
-  const v = e.target.value.trim();
-  if (v) { $('#imagePreview').src = v; $('#imagePreviewWrap').hidden = false; }
+
+// Açıklama karakter sayacı
+$('#productDesc').addEventListener('input', (e) => {
+  $('#descCount').textContent = e.target.value.length;
+});
+
+// Önizleme grid'inde X butonu
+$('#imagePreviewWrap').addEventListener('click', (e) => {
+  if (e.target.matches('[data-rmimg]')) {
+    const idx = parseInt(e.target.dataset.rmimg, 10);
+    pendingImages.splice(idx, 1);
+    renderImagePreviews();
+  }
 });
 
 // Sepetten ödemeye
@@ -913,6 +997,63 @@ document.addEventListener('keydown', (e) => {
 // Modalı dışına tıklayınca kapat
 $$('.modal').forEach(m => {
   m.addEventListener('click', (e) => { if (e.target === m) closeModal(m.id); });
+});
+
+// --- Lightbox (Galeri) ---
+let lbImages = [];
+let lbIndex = 0;
+
+function openGallery(productId) {
+  const p = products.find(x => x.id === productId);
+  if (!p) return;
+  lbImages = imageList(p);
+  if (!lbImages.length) return;
+  lbIndex = 0;
+  renderLightbox();
+  $('#lightbox').classList.add('open');
+  $('#lightbox').setAttribute('aria-hidden', 'false');
+}
+
+function renderLightbox() {
+  $('#lightboxImg').src = lbImages[lbIndex] || '';
+  $('#lightboxCounter').textContent = `${lbIndex + 1} / ${lbImages.length}`;
+  $('#lightboxPrev').style.visibility = lbImages.length > 1 ? 'visible' : 'hidden';
+  $('#lightboxNext').style.visibility = lbImages.length > 1 ? 'visible' : 'hidden';
+
+  const thumbs = $('#lightboxThumbs');
+  thumbs.innerHTML = '';
+  if (lbImages.length > 1) {
+    lbImages.forEach((src, i) => {
+      const t = document.createElement('div');
+      t.className = 'lightbox-thumb' + (i === lbIndex ? ' active' : '');
+      t.innerHTML = `<img src="${escapeAttr(src)}" alt="" />`;
+      t.addEventListener('click', () => { lbIndex = i; renderLightbox(); });
+      thumbs.appendChild(t);
+    });
+  }
+}
+
+function closeLightbox() {
+  $('#lightbox').classList.remove('open');
+  $('#lightbox').setAttribute('aria-hidden', 'true');
+}
+
+function lbNext() { if (lbImages.length > 1) { lbIndex = (lbIndex + 1) % lbImages.length; renderLightbox(); } }
+function lbPrev() { if (lbImages.length > 1) { lbIndex = (lbIndex - 1 + lbImages.length) % lbImages.length; renderLightbox(); } }
+
+document.addEventListener('click', (e) => {
+  const gal = e.target.closest('[data-gallery]');
+  if (gal) openGallery(gal.dataset.gallery);
+});
+$('#lightboxClose').addEventListener('click', closeLightbox);
+$('#lightboxPrev').addEventListener('click', lbPrev);
+$('#lightboxNext').addEventListener('click', lbNext);
+$('#lightbox').addEventListener('click', (e) => { if (e.target.id === 'lightbox') closeLightbox(); });
+document.addEventListener('keydown', (e) => {
+  if (!$('#lightbox').classList.contains('open')) return;
+  if (e.key === 'ArrowRight') lbNext();
+  else if (e.key === 'ArrowLeft') lbPrev();
+  else if (e.key === 'Escape') closeLightbox();
 });
 
 // İlk yükleme

@@ -324,23 +324,22 @@
       <form id="productForm" class="product-form">
         <input type="hidden" id="productId" />
         <label>Ürün Adı
-          <input type="text" id="productName" required maxlength="80" />
+          <input type="text" id="productName" required maxlength="200" />
         </label>
         <label>Fiyat (₺) — Kargo Dahil
           <input type="number" id="productPrice" required min="0" step="0.01" />
           <small class="muted">Buraya gireceğin fiyat müşteriye "Kargo Dahil Fiyat" olarak gösterilecek.</small>
         </label>
         <label>Açıklama
-          <textarea id="productDesc" rows="2" maxlength="200" placeholder="Kısa açıklama (opsiyonel)"></textarea>
+          <textarea id="productDesc" rows="6" maxlength="5000" placeholder="Ürün açıklaması (en fazla 5000 karakter)"></textarea>
+          <small class="muted"><span id="descCount">0</span> / 5000 karakter</small>
         </label>
-        <label>Görsel
-          <input type="file" id="productImage" accept="image/*" />
-          <small class="muted">Veya aşağıya görsel URL'si yapıştır.</small>
-          <input type="url" id="productImageUrl" placeholder="https://..." />
+        <label>Görseller (en fazla 10 adet)
+          <input type="file" id="productImage" accept="image/*" multiple />
+          <small class="muted">Bilgisayardan birden fazla görsel seçebilirsin (Ctrl/Shift ile çoklu seçim).</small>
+          <textarea id="productImageUrl" rows="3" placeholder="Veya her satıra bir görsel URL'si yapıştır:&#10;https://...&#10;https://..."></textarea>
         </label>
-        <div id="imagePreviewWrap" hidden>
-          <img id="imagePreview" alt="Önizleme" />
-        </div>
+        <div id="imagePreviewWrap" class="image-preview-grid" hidden></div>
         <div class="form-actions">
           <button type="submit" class="btn primary" id="saveProductBtn">Ürünü Ekle</button>
           <button type="button" id="cancelEditBtn" class="btn ghost" hidden>İptal</button>
@@ -359,6 +358,16 @@
       <div id="adminOrdersList" class="admin-list"></div>
     </div>
   </div>
+</div>
+
+<!-- Görsel Galerisi (Lightbox) -->
+<div id="lightbox" class="lightbox" aria-hidden="true">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Kapat">×</button>
+  <span class="lightbox-counter" id="lightboxCounter"></span>
+  <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Önceki">‹</button>
+  <img class="lightbox-img" id="lightboxImg" alt="" />
+  <button class="lightbox-nav next" id="lightboxNext" aria-label="Sonraki">›</button>
+  <div class="lightbox-thumbs" id="lightboxThumbs"></div>
 </div>
 
 <!-- Toast -->
