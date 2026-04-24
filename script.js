@@ -1,6 +1,252 @@
 // === Mum Atölyesi - Site mantığı ===
 // Veriler tarayıcının localStorage'ında saklanır.
 
+// === Çoklu Dil (i18n) ===
+const I18N = {
+  tr: {
+    nav_products: "Ürünler", nav_about: "Hakkımızda", nav_contact: "İletişim",
+    nav_cart: "Sepetim", nav_orders: "Siparişlerim",
+    nav_login: "Giriş Yap", nav_register: "Kayıt Ol",
+    products_eyebrow: "Ürünler", products_title: "Tüm Koleksiyon",
+    products_subtitle: "Beğendiğin ürüne tıkla, detaylarını gör",
+    empty_products: "Henüz ürün eklenmedi.",
+    cat_eyebrow: "Koleksiyonlar", cat_title: "Kategoriye Göre Alışveriş",
+    cat_subtitle: "Özel anınıza uygun hediyeliği keşfedin",
+    cat_all: "Tümü",
+    hero1_eyebrow: "Düğün Hediyelikleri Koleksiyonu",
+    hero1_title: "Mutluluğunuzu Misafirlerinizle Paylaşın",
+    hero1_text: "Her ayrıntısı özenle düşünülmüş, kişiye özel düğün hediyelikleri.",
+    hero1_cta: "Kategorileri Keşfet",
+    hero2_eyebrow: "Bebek & Doğum Günü", hero2_title: "Tatlı Anılar Bırakın",
+    hero2_text: "Bebek şekerleri, doğum günü hediyelikleri ve daha fazlası.", hero2_cta: "Ürünleri Gör",
+    hero3_eyebrow: "Kına & Nişan Konsepti", hero3_title: "Özel Geceler İçin Özel Tasarımlar",
+    hero3_text: "Hayalinizdeki konsepti birlikte hayata geçirelim.", hero3_cta: "Bize Ulaşın",
+    f1_title: "Özel Tasarım", f1_text: "Her ürün el yapımı ve kişiselleştirilebilir.",
+    f2_title: "Hızlı Kargo", f2_text: "Tahmini 3 iş günü içinde kapınızda.",
+    f3_title: "Şık Ambalaj", f3_text: "Hediyeye hazır, özenle paketlenmiş.",
+    f4_title: "Amazon'da Satıcı", f4_text: "Onaylı Amazon satıcısıyız, güvenle alışveriş yapın.",
+    about_title: "Hakkımızda",
+    about_text: "Düğün hediyelikleri satan bir markayız. Amazon'da ve kendi web sitemizde satış yapmaktayız. Her özel anınızda yanınızdayız.",
+    contact_title: "İletişim", contact_text: "Sipariş ve sorularınız için bize hemen ulaşabilirsiniz.",
+    contact_email: "E-posta",
+    cart_title: "Sepetim", cart_total: "Toplam", cart_checkout: "Alışverişi Tamamla",
+    cart_empty: "Sepetin şu an boş.",
+    add_to_cart: "Sepete Ekle",
+    products_count: "ürün",
+    footer_rights: "Tüm hakları saklıdır.",
+    admin_login: "Yönetici Girişi",
+    shipping_included: "Kargo Dahil Fiyat",
+    pd_quantity: "Adet Seçimi",
+    pd_description: "Açıklama",
+    pd_no_desc: "Açıklama eklenmemiş.",
+    pd_delivery_title: "📦 Teslimat",
+    pd_delivery_text: "Tahmini 3 iş günü içinde kargoya verilir.",
+    pd_amazon: "🛒 Amazon'da Görüntüle",
+    cat_dugun: "Düğün Hediyelikleri", cat_anma: "Anma Hediyeliği",
+    cat_nisan: "Nişan Hediyelikleri", cat_bebek: "Bebek Şekeri",
+    cat_dogum: "Doğum Günü", cat_kina: "Kına Gecesi",
+    cat_mezuniyet: "Mezuniyet", cat_soz: "Söz Hediyelikleri",
+    cat_ozel: "Özel Tasarım", cat_diger: "Diğer",
+    var_renk: "Renk", var_koku: "Koku", var_desen: "Desen", var_folyo: "Folyo & Kutu",
+  },
+  en: {
+    nav_products: "Products", nav_about: "About Us", nav_contact: "Contact",
+    nav_cart: "My Cart", nav_orders: "My Orders",
+    nav_login: "Sign In", nav_register: "Sign Up",
+    products_eyebrow: "Products", products_title: "Full Collection",
+    products_subtitle: "Click any product to see details",
+    empty_products: "No products added yet.",
+    cat_eyebrow: "Collections", cat_title: "Shop by Category",
+    cat_subtitle: "Discover the perfect favor for your special moment",
+    cat_all: "All",
+    hero1_eyebrow: "Wedding Favors Collection",
+    hero1_title: "Share Your Happiness With Your Guests",
+    hero1_text: "Personalized wedding favors with every detail thoughtfully designed.",
+    hero1_cta: "Explore Categories",
+    hero2_eyebrow: "Baby Shower & Birthday", hero2_title: "Leave Sweet Memories",
+    hero2_text: "Baby shower favors, birthday gifts and more.", hero2_cta: "See Products",
+    hero3_eyebrow: "Henna & Engagement Concept", hero3_title: "Special Designs for Special Nights",
+    hero3_text: "Let's bring your dream concept to life together.", hero3_cta: "Contact Us",
+    f1_title: "Custom Design", f1_text: "Every product is handmade and customizable.",
+    f2_title: "Fast Shipping", f2_text: "At your door in approximately 3 business days.",
+    f3_title: "Elegant Packaging", f3_text: "Gift-ready, carefully packaged.",
+    f4_title: "Amazon Seller", f4_text: "We are a verified Amazon seller, shop with confidence.",
+    about_title: "About Us",
+    about_text: "We are a brand selling wedding favors. We sell on Amazon and on our own website. We're with you on every special occasion.",
+    contact_title: "Contact", contact_text: "Reach us directly for orders and questions.",
+    contact_email: "Email",
+    cart_title: "My Cart", cart_total: "Total", cart_checkout: "Complete Purchase",
+    cart_empty: "Your cart is empty.",
+    add_to_cart: "Add to Cart",
+    products_count: "products",
+    footer_rights: "All rights reserved.",
+    admin_login: "Admin Login",
+    shipping_included: "Shipping Included",
+    pd_quantity: "Quantity Selection",
+    pd_description: "Description",
+    pd_no_desc: "No description added.",
+    pd_delivery_title: "📦 Delivery",
+    pd_delivery_text: "Shipped within approximately 3 business days.",
+    pd_amazon: "🛒 View on Amazon",
+    cat_dugun: "Wedding Favors", cat_anma: "Memorial Favors",
+    cat_nisan: "Engagement Favors", cat_bebek: "Baby Shower",
+    cat_dogum: "Birthday", cat_kina: "Henna Night",
+    cat_mezuniyet: "Graduation", cat_soz: "Promise Gifts",
+    cat_ozel: "Custom Design", cat_diger: "Other",
+    var_renk: "Color", var_koku: "Scent", var_desen: "Pattern", var_folyo: "Foil & Box",
+  },
+  de: {
+    nav_products: "Produkte", nav_about: "Über uns", nav_contact: "Kontakt",
+    nav_cart: "Mein Warenkorb", nav_orders: "Meine Bestellungen",
+    nav_login: "Anmelden", nav_register: "Registrieren",
+    products_eyebrow: "Produkte", products_title: "Gesamte Kollektion",
+    products_subtitle: "Klicken Sie auf ein Produkt für Details",
+    empty_products: "Noch keine Produkte hinzugefügt.",
+    cat_eyebrow: "Kollektionen", cat_title: "Nach Kategorie einkaufen",
+    cat_subtitle: "Entdecken Sie das perfekte Geschenk für Ihren besonderen Moment",
+    cat_all: "Alle",
+    hero1_eyebrow: "Hochzeitsgeschenke-Kollektion",
+    hero1_title: "Teilen Sie Ihr Glück mit Ihren Gästen",
+    hero1_text: "Personalisierte Hochzeitsgeschenke mit jedem Detail durchdacht.",
+    hero1_cta: "Kategorien Entdecken",
+    hero2_eyebrow: "Babyparty & Geburtstag", hero2_title: "Hinterlassen Sie süße Erinnerungen",
+    hero2_text: "Babyparty-Geschenke, Geburtstagsgeschenke und mehr.", hero2_cta: "Produkte Ansehen",
+    hero3_eyebrow: "Henna & Verlobung Konzept", hero3_title: "Besondere Designs für besondere Abende",
+    hero3_text: "Lassen Sie uns Ihr Traumkonzept gemeinsam zum Leben erwecken.", hero3_cta: "Kontaktieren Sie uns",
+    f1_title: "Individuelles Design", f1_text: "Jedes Produkt ist handgefertigt und anpassbar.",
+    f2_title: "Schneller Versand", f2_text: "In ca. 3 Werktagen vor Ihrer Tür.",
+    f3_title: "Elegante Verpackung", f3_text: "Geschenkbereit, sorgfältig verpackt.",
+    f4_title: "Amazon-Verkäufer", f4_text: "Wir sind ein verifizierter Amazon-Verkäufer.",
+    about_title: "Über uns",
+    about_text: "Wir sind eine Marke für Hochzeitsgeschenke. Wir verkaufen auf Amazon und auf unserer eigenen Website. Wir sind bei jedem besonderen Anlass an Ihrer Seite.",
+    contact_title: "Kontakt", contact_text: "Erreichen Sie uns direkt für Bestellungen und Fragen.",
+    contact_email: "E-Mail",
+    cart_title: "Mein Warenkorb", cart_total: "Gesamt", cart_checkout: "Kauf Abschließen",
+    cart_empty: "Ihr Warenkorb ist leer.",
+    add_to_cart: "In den Warenkorb",
+    products_count: "Produkte",
+    footer_rights: "Alle Rechte vorbehalten.",
+    admin_login: "Admin-Anmeldung",
+    shipping_included: "Versand inklusive",
+    pd_quantity: "Mengenauswahl",
+    pd_description: "Beschreibung",
+    pd_no_desc: "Keine Beschreibung hinzugefügt.",
+    pd_delivery_title: "📦 Lieferung",
+    pd_delivery_text: "Versand innerhalb von ca. 3 Werktagen.",
+    pd_amazon: "🛒 Auf Amazon ansehen",
+    cat_dugun: "Hochzeitsgeschenke", cat_anma: "Gedenkgeschenke",
+    cat_nisan: "Verlobungsgeschenke", cat_bebek: "Babyparty",
+    cat_dogum: "Geburtstag", cat_kina: "Henna-Nacht",
+    cat_mezuniyet: "Abschluss", cat_soz: "Versprechensgeschenke",
+    cat_ozel: "Individuelles Design", cat_diger: "Sonstiges",
+    var_renk: "Farbe", var_koku: "Duft", var_desen: "Muster", var_folyo: "Folie & Box",
+  },
+  es: {
+    nav_products: "Productos", nav_about: "Acerca de", nav_contact: "Contacto",
+    nav_cart: "Mi Carrito", nav_orders: "Mis Pedidos",
+    nav_login: "Iniciar Sesión", nav_register: "Registrarse",
+    products_eyebrow: "Productos", products_title: "Colección Completa",
+    products_subtitle: "Haz clic en un producto para ver los detalles",
+    empty_products: "Aún no se han añadido productos.",
+    cat_eyebrow: "Colecciones", cat_title: "Comprar por Categoría",
+    cat_subtitle: "Descubre el recuerdo perfecto para tu momento especial",
+    cat_all: "Todos",
+    hero1_eyebrow: "Colección de Recuerdos de Boda",
+    hero1_title: "Comparte Tu Felicidad Con Tus Invitados",
+    hero1_text: "Recuerdos de boda personalizados con cada detalle cuidadosamente diseñado.",
+    hero1_cta: "Explorar Categorías",
+    hero2_eyebrow: "Baby Shower y Cumpleaños", hero2_title: "Deja Recuerdos Dulces",
+    hero2_text: "Recuerdos de baby shower, regalos de cumpleaños y más.", hero2_cta: "Ver Productos",
+    hero3_eyebrow: "Henna y Compromiso", hero3_title: "Diseños Especiales para Noches Especiales",
+    hero3_text: "Hagamos realidad tu concepto soñado juntos.", hero3_cta: "Contáctanos",
+    f1_title: "Diseño Personalizado", f1_text: "Cada producto es hecho a mano y personalizable.",
+    f2_title: "Envío Rápido", f2_text: "En tu puerta en aproximadamente 3 días hábiles.",
+    f3_title: "Embalaje Elegante", f3_text: "Listo para regalar, cuidadosamente empacado.",
+    f4_title: "Vendedor en Amazon", f4_text: "Somos vendedor verificado en Amazon, compra con confianza.",
+    about_title: "Acerca de Nosotros",
+    about_text: "Somos una marca que vende recuerdos de boda. Vendemos en Amazon y en nuestra propia web. Te acompañamos en cada momento especial.",
+    contact_title: "Contacto", contact_text: "Contáctanos directamente para pedidos y preguntas.",
+    contact_email: "Correo",
+    cart_title: "Mi Carrito", cart_total: "Total", cart_checkout: "Completar Compra",
+    cart_empty: "Tu carrito está vacío.",
+    add_to_cart: "Añadir al Carrito",
+    products_count: "productos",
+    footer_rights: "Todos los derechos reservados.",
+    admin_login: "Acceso Admin",
+    shipping_included: "Envío Incluido",
+    pd_quantity: "Selección de Cantidad",
+    pd_description: "Descripción",
+    pd_no_desc: "Sin descripción añadida.",
+    pd_delivery_title: "📦 Entrega",
+    pd_delivery_text: "Enviado en aproximadamente 3 días hábiles.",
+    pd_amazon: "🛒 Ver en Amazon",
+    cat_dugun: "Recuerdos de Boda", cat_anma: "Recuerdos Conmemorativos",
+    cat_nisan: "Recuerdos de Compromiso", cat_bebek: "Baby Shower",
+    cat_dogum: "Cumpleaños", cat_kina: "Noche de Henna",
+    cat_mezuniyet: "Graduación", cat_soz: "Regalos de Promesa",
+    cat_ozel: "Diseño Personalizado", cat_diger: "Otros",
+    var_renk: "Color", var_koku: "Aroma", var_desen: "Patrón", var_folyo: "Folio y Caja",
+  },
+};
+
+const CATEGORY_KEY = {
+  "Düğün Hediyelikleri": "cat_dugun",
+  "Anma Hediyeliği": "cat_anma",
+  "Nişan Hediyelikleri": "cat_nisan",
+  "Bebek Şekeri": "cat_bebek",
+  "Doğum Günü": "cat_dogum",
+  "Kına Gecesi": "cat_kina",
+  "Mezuniyet": "cat_mezuniyet",
+  "Söz Hediyelikleri": "cat_soz",
+  "Özel Tasarım": "cat_ozel",
+  "Diğer": "cat_diger",
+};
+
+const VARIATION_KEY = {
+  "Renk": "var_renk", "Koku": "var_koku", "Desen": "var_desen", "Folyo & Kutu": "var_folyo"
+};
+
+let currentLang = localStorage.getItem('ma_lang') || 'tr';
+
+function t(key) {
+  return (I18N[currentLang] && I18N[currentLang][key]) || (I18N.tr[key] || key);
+}
+
+function localizedCategory(cat) {
+  const k = CATEGORY_KEY[cat];
+  return k ? t(k) : cat;
+}
+
+function localizedVariationName(name) {
+  const k = VARIATION_KEY[name];
+  return k ? t(k) : name;
+}
+
+function localizedProductField(p, field) {
+  const langField = field + '_' + currentLang;
+  return p[langField] || p[field] || '';
+}
+
+function applyTranslations() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    const txt = t(key);
+    if (txt) el.textContent = txt;
+  });
+  document.documentElement.lang = currentLang;
+}
+
+function setLanguage(lang) {
+  if (!I18N[lang]) lang = 'tr';
+  currentLang = lang;
+  localStorage.setItem('ma_lang', lang);
+  applyTranslations();
+  if (typeof renderProducts === 'function') renderProducts();
+  if (typeof renderCart === 'function') renderCart();
+  const sel = document.getElementById('langSelect');
+  if (sel) sel.value = lang;
+}
+
 const STORE = {
   products: 'ma_products',
   cart: 'ma_cart',
@@ -76,6 +322,7 @@ function migrateProducts(list) {
 // Kategori meta — emoji eşlemesi
 const CATEGORY_EMOJI = {
   'Düğün Hediyelikleri': '💍',
+  'Anma Hediyeliği': '🕊️',
   'Nişan Hediyelikleri': '💎',
   'Bebek Şekeri': '🍼',
   'Doğum Günü': '🎂',
@@ -114,9 +361,9 @@ function renderCategoryGrid() {
     tile.innerHTML = `
       <div class="category-tile-emoji">${CATEGORY_EMOJI[name] || '🎁'}</div>
       <p class="category-tile-name"></p>
-      <span class="category-tile-count">${count} ürün</span>
+      <span class="category-tile-count">${count} ${t('products_count')}</span>
     `;
-    tile.querySelector('.category-tile-name').textContent = name;
+    tile.querySelector('.category-tile-name').textContent = localizedCategory(name);
     tile.addEventListener('click', () => {
       activeCategory = name;
       renderCategoryFilter();
@@ -131,9 +378,9 @@ function renderCategoryFilter() {
   if (!wrap) return;
   const counts = getCategoryCounts();
   if (!counts.size) { wrap.innerHTML = ''; return; }
-  let html = `<button class="cat-chip ${activeCategory === 'all' ? 'active' : ''}" data-cat="all">Tümü</button>`;
+  let html = `<button class="cat-chip ${activeCategory === 'all' ? 'active' : ''}" data-cat="all">${escapeAttr(t('cat_all'))}</button>`;
   for (const [name, count] of counts) {
-    html += `<button class="cat-chip ${activeCategory === name ? 'active' : ''}" data-cat="${escapeAttr(name)}">${escapeAttr(name)} (${count})</button>`;
+    html += `<button class="cat-chip ${activeCategory === name ? 'active' : ''}" data-cat="${escapeAttr(name)}">${escapeAttr(localizedCategory(name))} (${count})</button>`;
   }
   wrap.innerHTML = html;
   wrap.querySelectorAll('.cat-chip').forEach(b => {
@@ -222,10 +469,11 @@ function renderProducts() {
     const countBadge = imgs.length > 1
       ? `<span class="image-count-badge">📷 ${imgs.length}</span>` : '';
 
+    const displayName = localizedProductField(p, 'name');
     card.innerHTML = `
       <div class="product-img" data-detail="${p.id}" style="cursor:pointer;">
         ${main
-          ? `<img src="${escapeAttr(main)}" alt="${escapeAttr(p.name)}" />`
+          ? `<img src="${escapeAttr(main)}" alt="${escapeAttr(displayName)}" />`
           : `<div class="placeholder">🕯️</div>`}
         ${countBadge}
       </div>
@@ -234,13 +482,13 @@ function renderProducts() {
         <div class="product-foot">
           <div>
             <span class="product-price">${fmtPrice(totalPrice)}</span>
-            <small class="muted" style="display:block;">Kargo Dahil Fiyat</small>
+            <small class="muted" style="display:block;">${escapeAttr(t('shipping_included'))}</small>
           </div>
-          <button class="btn primary small" data-add="${p.id}">Sepete Ekle</button>
+          <button class="btn primary small" data-add="${p.id}">${escapeAttr(t('add_to_cart'))}</button>
         </div>
       </div>
     `;
-    card.querySelector('.product-name').textContent = p.name;
+    card.querySelector('.product-name').textContent = displayName;
     grid.appendChild(card);
   }
 
@@ -308,7 +556,7 @@ function renderCart() {
   let count = 0;
 
   if (!cart.length) {
-    list.innerHTML = `<p class="muted" style="padding:20px 0;text-align:center;">Sepetin şu an boş.</p>`;
+    list.innerHTML = `<p class="muted" style="padding:20px 0;text-align:center;">${escapeAttr(t('cart_empty'))}</p>`;
   }
 
   for (const item of cart) {
@@ -337,7 +585,7 @@ function renderCart() {
       </div>
       <button class="ci-remove" data-rem="${escapeAttr(item.key)}">Sil</button>
     `;
-    row.querySelector('.ci-name').textContent = p.name;
+    row.querySelector('.ci-name').textContent = localizedProductField(p, 'name');
     list.appendChild(row);
   }
 
@@ -1372,8 +1620,8 @@ function openProductDetail(productId) {
   pdImages = imageList(p);
   pdIndex = 0;
 
-  $('#pdName').textContent = p.name;
-  $('#pdDesc').textContent = p.description || 'Açıklama eklenmemiş.';
+  $('#pdName').textContent = localizedProductField(p, 'name');
+  $('#pdDesc').textContent = localizedProductField(p, 'description') || t('pd_no_desc');
 
   // Bundle seçimi (varsa) ilk bundle'ı varsayılan al
   pdSelectedBundleId = (p.bundles || []).length ? p.bundles[0].id : null;
@@ -1442,7 +1690,7 @@ function renderPdVariations(p) {
       return `<button type="button" class="pd-variation-opt${active}" data-vname="${escapeAttr(v.name)}" data-vopt="${escapeAttr(opt)}">${escapeAttr(opt)}</button>`;
     }).join('');
     block.innerHTML = `
-      <div class="pd-variation-name">${escapeAttr(v.name)}</div>
+      <div class="pd-variation-name">${escapeAttr(localizedVariationName(v.name))}</div>
       <div class="pd-variation-options">${optsHtml}</div>
     `;
     block.addEventListener('click', (e) => {
@@ -1674,8 +1922,16 @@ if (saveGhTokenBtn) saveGhTokenBtn.addEventListener('click', async () => {
   start();
 })();
 
+// Dil seçici
+const langSel = document.getElementById('langSelect');
+if (langSel) {
+  langSel.value = currentLang;
+  langSel.addEventListener('change', (e) => setLanguage(e.target.value));
+}
+
 // İlk yükleme
 $('#year').textContent = new Date().getFullYear();
+applyTranslations();
 renderProducts();
 renderCart();
 refreshUserUi();

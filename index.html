@@ -15,15 +15,21 @@
       <span class="brand-fallback">Shawly Sisters</span>
     </a>
     <nav class="nav">
-      <a href="#urunler">Ürünler</a>
-      <a href="#hakkimda">Hakkımızda</a>
-      <a href="#iletisim">İletişim</a>
+      <a href="#urunler" data-i18n="nav_products">Ürünler</a>
+      <a href="#hakkimda" data-i18n="nav_about">Hakkımızda</a>
+      <a href="#iletisim" data-i18n="nav_contact">İletişim</a>
+      <select id="langSelect" class="lang-select" aria-label="Dil seçimi">
+        <option value="tr">🇹🇷 TR</option>
+        <option value="en">🇬🇧 EN</option>
+        <option value="de">🇩🇪 DE</option>
+        <option value="es">🇪🇸 ES</option>
+      </select>
       <button id="cartBtn" class="icon-btn" aria-label="Sepetim">
-        🛒 Sepetim <span id="cartCount" class="badge">0</span>
+        🛒 <span data-i18n="nav_cart">Sepetim</span> <span id="cartCount" class="badge">0</span>
       </button>
-      <button id="ordersBtn" class="icon-btn ghost" aria-label="Siparişlerim" hidden>📦 Siparişlerim</button>
-      <button id="loginBtn" class="icon-btn ghost" aria-label="Giriş Yap">Giriş Yap</button>
-      <button id="registerBtn" class="icon-btn" aria-label="Kayıt Ol">Kayıt Ol</button>
+      <button id="ordersBtn" class="icon-btn ghost" aria-label="Siparişlerim" hidden>📦 <span data-i18n="nav_orders">Siparişlerim</span></button>
+      <button id="loginBtn" class="icon-btn ghost" aria-label="Giriş Yap" data-i18n="nav_login">Giriş Yap</button>
+      <button id="registerBtn" class="icon-btn" aria-label="Kayıt Ol" data-i18n="nav_register">Kayıt Ol</button>
       <button id="userBtn" class="icon-btn ghost" aria-label="Hesap" hidden></button>
     </nav>
   </div>
@@ -33,13 +39,13 @@
 <main class="container">
   <section id="urunler" class="products-section products-top">
     <div class="section-head">
-      <span class="section-eyebrow">Ürünler</span>
-      <h3>Tüm Koleksiyon</h3>
-      <p>Beğendiğin ürüne tıkla, detaylarını gör</p>
+      <span class="section-eyebrow" data-i18n="products_eyebrow">Ürünler</span>
+      <h3 data-i18n="products_title">Tüm Koleksiyon</h3>
+      <p data-i18n="products_subtitle">Beğendiğin ürüne tıkla, detaylarını gör</p>
     </div>
     <div id="categoryFilter" class="category-filter"></div>
     <div id="productGrid" class="product-grid"></div>
-    <p id="emptyState" class="empty-state" hidden>Henüz ürün eklenmedi. Yönetim panelinden ekleyebilirsin.</p>
+    <p id="emptyState" class="empty-state" hidden data-i18n="empty_products">Henüz ürün eklenmedi.</p>
   </section>
 </main>
 
@@ -48,26 +54,26 @@
   <div class="hero-slides" id="heroSlides">
     <div class="hero-slide slide-1 active">
       <div class="container hero-slide-inner">
-        <span class="hero-eyebrow">Düğün Hediyelikleri Koleksiyonu</span>
-        <h2>Mutluluğunuzu Misafirlerinizle Paylaşın</h2>
-        <p>Her ayrıntısı özenle düşünülmüş, kişiye özel düğün hediyelikleri.</p>
-        <a href="#kategoriler" class="btn primary">Kategorileri Keşfet</a>
+        <span class="hero-eyebrow" data-i18n="hero1_eyebrow">Düğün Hediyelikleri Koleksiyonu</span>
+        <h2 data-i18n="hero1_title">Mutluluğunuzu Misafirlerinizle Paylaşın</h2>
+        <p data-i18n="hero1_text">Her ayrıntısı özenle düşünülmüş, kişiye özel düğün hediyelikleri.</p>
+        <a href="#kategoriler" class="btn primary" data-i18n="hero1_cta">Kategorileri Keşfet</a>
       </div>
     </div>
     <div class="hero-slide slide-2">
       <div class="container hero-slide-inner">
-        <span class="hero-eyebrow">Bebek & Doğum Günü</span>
-        <h2>Tatlı Anılar Bırakın</h2>
-        <p>Bebek şekerleri, doğum günü hediyelikleri ve daha fazlası.</p>
-        <a href="#urunler" class="btn primary">Ürünleri Gör</a>
+        <span class="hero-eyebrow" data-i18n="hero2_eyebrow">Bebek & Doğum Günü</span>
+        <h2 data-i18n="hero2_title">Tatlı Anılar Bırakın</h2>
+        <p data-i18n="hero2_text">Bebek şekerleri, doğum günü hediyelikleri ve daha fazlası.</p>
+        <a href="#urunler" class="btn primary" data-i18n="hero2_cta">Ürünleri Gör</a>
       </div>
     </div>
     <div class="hero-slide slide-3">
       <div class="container hero-slide-inner">
-        <span class="hero-eyebrow">Kına & Nişan Konsepti</span>
-        <h2>Özel Geceler İçin Özel Tasarımlar</h2>
-        <p>Hayalinizdeki konsepti birlikte hayata geçirelim.</p>
-        <a href="#iletisim" class="btn primary">Bize Ulaşın</a>
+        <span class="hero-eyebrow" data-i18n="hero3_eyebrow">Kına & Nişan Konsepti</span>
+        <h2 data-i18n="hero3_title">Özel Geceler İçin Özel Tasarımlar</h2>
+        <p data-i18n="hero3_text">Hayalinizdeki konsepti birlikte hayata geçirelim.</p>
+        <a href="#iletisim" class="btn primary" data-i18n="hero3_cta">Bize Ulaşın</a>
       </div>
     </div>
   </div>
@@ -83,9 +89,9 @@
 <main class="container">
   <section id="kategoriler" class="categories">
     <div class="section-head">
-      <span class="section-eyebrow">Koleksiyonlar</span>
-      <h3>Kategoriye Göre Alışveriş</h3>
-      <p>Özel anınıza uygun hediyeliği keşfedin</p>
+      <span class="section-eyebrow" data-i18n="cat_eyebrow">Koleksiyonlar</span>
+      <h3 data-i18n="cat_title">Kategoriye Göre Alışveriş</h3>
+      <p data-i18n="cat_subtitle">Özel anınıza uygun hediyeliği keşfedin</p>
     </div>
     <div class="category-grid" id="categoryGrid"></div>
   </section>
@@ -93,39 +99,39 @@
   <section class="features">
     <div class="feature">
       <div class="feature-icon">✨</div>
-      <h4>Özel Tasarım</h4>
-      <p>Her ürün el yapımı ve kişiselleştirilebilir.</p>
+      <h4 data-i18n="f1_title">Özel Tasarım</h4>
+      <p data-i18n="f1_text">Her ürün el yapımı ve kişiselleştirilebilir.</p>
     </div>
     <div class="feature">
       <div class="feature-icon">📦</div>
-      <h4>Hızlı Kargo</h4>
-      <p>Tahmini 3 iş günü içinde kapınızda.</p>
+      <h4 data-i18n="f2_title">Hızlı Kargo</h4>
+      <p data-i18n="f2_text">Tahmini 3 iş günü içinde kapınızda.</p>
     </div>
     <div class="feature">
       <div class="feature-icon">💝</div>
-      <h4>Şık Ambalaj</h4>
-      <p>Hediyeye hazır, özenle paketlenmiş.</p>
+      <h4 data-i18n="f3_title">Şık Ambalaj</h4>
+      <p data-i18n="f3_text">Hediyeye hazır, özenle paketlenmiş.</p>
     </div>
     <div class="feature">
       <div class="feature-icon">⭐</div>
-      <h4>Amazon'da Satıcı</h4>
-      <p>Onaylı Amazon satıcısıyız, güvenle alışveriş yapın.</p>
+      <h4 data-i18n="f4_title">Amazon'da Satıcı</h4>
+      <p data-i18n="f4_text">Onaylı Amazon satıcısıyız, güvenle alışveriş yapın.</p>
     </div>
   </section>
 
   <section id="hakkimda" class="about">
-    <h3>Hakkımızda</h3>
-    <p>Düğün hediyelikleri satan bir markayız. Amazon'da ve kendi web sitemizde satış yapmaktayız. Her özel anınızda yanınızdayız.</p>
+    <h3 data-i18n="about_title">Hakkımızda</h3>
+    <p data-i18n="about_text">Düğün hediyelikleri satan bir markayız. Amazon'da ve kendi web sitemizde satış yapmaktayız. Her özel anınızda yanınızdayız.</p>
   </section>
 
   <section id="iletisim" class="contact">
-    <h3>İletişim</h3>
-    <p>Sipariş ve sorularınız için bize hemen ulaşabilirsiniz.</p>
+    <h3 data-i18n="contact_title">İletişim</h3>
+    <p data-i18n="contact_text">Sipariş ve sorularınız için bize hemen ulaşabilirsiniz.</p>
     <div class="contact-grid">
       <a href="mailto:shawlysisters@gmail.com" class="contact-card">
         <span class="contact-icon">✉️</span>
         <div>
-          <div class="contact-label">E-posta</div>
+          <div class="contact-label" data-i18n="contact_email">E-posta</div>
           <div class="contact-value">shawlysisters@gmail.com</div>
         </div>
       </a>
@@ -142,8 +148,8 @@
 
 <footer class="site-footer">
   <div class="container">
-    <p>© <span id="year"></span> Shawly Sisters · Tüm hakları saklıdır.</p>
-    <p><a href="#" id="adminLink" class="admin-link">Yönetici Girişi</a></p>
+    <p>© <span id="year"></span> Shawly Sisters · <span data-i18n="footer_rights">Tüm hakları saklıdır.</span></p>
+    <p><a href="#" id="adminLink" class="admin-link" data-i18n="admin_login">Yönetici Girişi</a></p>
   </div>
 </footer>
 
@@ -151,17 +157,17 @@
 <aside id="cartPanel" class="panel" aria-hidden="true">
   <div class="panel-head">
     <button id="cartBackBtn" class="back-btn" aria-label="Ana Sayfaya Dön">←</button>
-    <h3>Sepetim</h3>
+    <h3 data-i18n="cart_title">Sepetim</h3>
     <span class="panel-head-spacer"></span>
   </div>
   <div id="cartItems" class="cart-items"></div>
   <div class="cart-foot">
     <div class="checkout-row">
       <div class="total-block">
-        <span class="total-label">Toplam</span>
-        <strong id="cartTotal">0,00 ₺</strong>
+        <span class="total-label" data-i18n="cart_total">Toplam</span>
+        <strong id="cartTotal">$0.00</strong>
       </div>
-      <button id="checkoutBtn" class="btn primary">Alışverişi Tamamla</button>
+      <button id="checkoutBtn" class="btn primary" data-i18n="cart_checkout">Alışverişi Tamamla</button>
     </div>
   </div>
 </aside>
@@ -477,24 +483,24 @@
           </div>
         </div>
         <div class="pd-section" id="pdBundleSection" hidden>
-          <h4>Adet Seçimi</h4>
+          <h4 data-i18n="pd_quantity">Adet Seçimi</h4>
           <div id="pdBundles" class="pd-bundles"></div>
         </div>
         <div class="pd-section" id="pdVariationSection" hidden>
           <div id="pdVariations" class="pd-variations"></div>
         </div>
         <div class="pd-section">
-          <h4>Açıklama</h4>
+          <h4 data-i18n="pd_description">Açıklama</h4>
           <p id="pdDesc" class="pd-desc"></p>
         </div>
         <div class="pd-section pd-shipping">
-          <h4>📦 Teslimat</h4>
-          <p>Tahmini 3 iş günü içinde kargoya verilir.</p>
+          <h4 data-i18n="pd_delivery_title">📦 Teslimat</h4>
+          <p data-i18n="pd_delivery_text">Tahmini 3 iş günü içinde kargoya verilir.</p>
         </div>
-        <a id="pdAmazonBtn" class="btn ghost block amazon-btn" href="#" target="_blank" rel="noopener" hidden>
+        <a id="pdAmazonBtn" class="btn ghost block amazon-btn" href="#" target="_blank" rel="noopener" hidden data-i18n="pd_amazon">
           🛒 Amazon'da Görüntüle
         </a>
-        <button id="pdAddCartBtn" class="btn primary block">Sepete Ekle</button>
+        <button id="pdAddCartBtn" class="btn primary block" data-i18n="add_to_cart">Sepete Ekle</button>
       </div>
     </div>
   </div>
@@ -545,7 +551,7 @@
 <!-- Yüzen Sepet Butonu (her zaman alt sağda) -->
 <button id="floatingCartBtn" class="floating-cart" aria-label="Sepetim">
   <span class="fc-icon">🛒</span>
-  <span class="fc-label">Sepetim</span>
+  <span class="fc-label" data-i18n="nav_cart">Sepetim</span>
   <span id="floatingCartCount" class="fc-count">0</span>
 </button>
 

@@ -71,6 +71,15 @@ body {
 }
 .nav a:hover { color: var(--accent-dark); }
 
+.lang-select {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: 999px; padding: 6px 10px; font-size: 13px;
+  font-weight: 600; color: var(--ink); cursor: pointer;
+  font-family: inherit; outline: none;
+}
+.lang-select:hover { border-color: var(--accent); }
+.lang-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(185,136,90,0.18); }
+
 .icon-btn {
   position: relative;
   background: var(--accent); color: #fff; border: none;
