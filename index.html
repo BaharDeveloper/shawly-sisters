@@ -32,21 +32,88 @@
   </div>
 </header>
 
-<section class="hero">
-  <div class="container hero-inner">
-    <h2 class="hero-title">SHAWLY SISTERS</h2>
-    <a href="#urunler" class="btn primary">Ürünleri Keşfet</a>
+<!-- Hero Slider -->
+<section class="hero-slider" aria-label="Tanıtım">
+  <div class="hero-slides" id="heroSlides">
+    <div class="hero-slide slide-1 active">
+      <div class="container hero-slide-inner">
+        <span class="hero-eyebrow">Düğün Hediyelikleri Koleksiyonu</span>
+        <h2>Mutluluğunuzu Misafirlerinizle Paylaşın</h2>
+        <p>Her ayrıntısı özenle düşünülmüş, kişiye özel düğün hediyelikleri.</p>
+        <a href="#kategoriler" class="btn primary">Kategorileri Keşfet</a>
+      </div>
+    </div>
+    <div class="hero-slide slide-2">
+      <div class="container hero-slide-inner">
+        <span class="hero-eyebrow">Bebek & Doğum Günü</span>
+        <h2>Tatlı Anılar Bırakın</h2>
+        <p>Bebek şekerleri, doğum günü hediyelikleri ve daha fazlası.</p>
+        <a href="#urunler" class="btn primary">Ürünleri Gör</a>
+      </div>
+    </div>
+    <div class="hero-slide slide-3">
+      <div class="container hero-slide-inner">
+        <span class="hero-eyebrow">Kına & Nişan Konsepti</span>
+        <h2>Özel Geceler İçin Özel Tasarımlar</h2>
+        <p>Hayalinizdeki konsepti birlikte hayata geçirelim.</p>
+        <a href="#iletisim" class="btn primary">Bize Ulaşın</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-dots" id="heroDots">
+    <button class="hero-dot active" data-slide="0" aria-label="1. tanıtım"></button>
+    <button class="hero-dot" data-slide="1" aria-label="2. tanıtım"></button>
+    <button class="hero-dot" data-slide="2" aria-label="3. tanıtım"></button>
+  </div>
+  <button class="hero-nav prev" id="heroPrev" aria-label="Önceki">‹</button>
+  <button class="hero-nav next" id="heroNext" aria-label="Sonraki">›</button>
+</section>
+
+<!-- Kategori Kartları -->
+<section id="kategoriler" class="categories">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-eyebrow">Koleksiyonlar</span>
+      <h3>Kategoriye Göre Alışveriş</h3>
+      <p>Özel anınıza uygun hediyeliği keşfedin</p>
+    </div>
+    <div class="category-grid" id="categoryGrid"></div>
   </div>
 </section>
 
 <main class="container">
   <section id="urunler" class="products-section">
     <div class="section-head">
-      <h3>Ürünler</h3>
-      <p>Sepete ekle, kolayca sipariş ver.</p>
+      <span class="section-eyebrow">Ürünler</span>
+      <h3>Tüm Koleksiyon</h3>
+      <p>Beğendiğin ürüne tıkla, detaylarını gör</p>
     </div>
+    <div id="categoryFilter" class="category-filter"></div>
     <div id="productGrid" class="product-grid"></div>
     <p id="emptyState" class="empty-state" hidden>Henüz ürün eklenmedi. Yönetim panelinden ekleyebilirsin.</p>
+  </section>
+
+  <section class="features">
+    <div class="feature">
+      <div class="feature-icon">✨</div>
+      <h4>Özel Tasarım</h4>
+      <p>Her ürün el yapımı ve kişiselleştirilebilir.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">📦</div>
+      <h4>Hızlı Kargo</h4>
+      <p>Tahmini 3 iş günü içinde kapınızda.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">💝</div>
+      <h4>Şık Ambalaj</h4>
+      <p>Hediyeye hazır, özenle paketlenmiş.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">⭐</div>
+      <h4>Amazon'da Satıcı</h4>
+      <p>Onaylı Amazon satıcısıyız, güvenle alışveriş yapın.</p>
+    </div>
   </section>
 
   <section id="hakkimda" class="about">
@@ -326,6 +393,20 @@
         <input type="hidden" id="productId" />
         <label>Ürün Adı
           <input type="text" id="productName" required maxlength="200" />
+        </label>
+        <label>Kategori
+          <input type="text" id="productCategory" list="categorySuggestions" placeholder="örn. Düğün Hediyelikleri" />
+          <datalist id="categorySuggestions">
+            <option value="Düğün Hediyelikleri"></option>
+            <option value="Nişan Hediyelikleri"></option>
+            <option value="Bebek Şekeri"></option>
+            <option value="Doğum Günü"></option>
+            <option value="Kına Gecesi"></option>
+            <option value="Mezuniyet"></option>
+            <option value="Söz Hediyelikleri"></option>
+            <option value="Özel Tasarım"></option>
+          </datalist>
+          <small class="muted">Müşteriler bu kategoriye göre filtreleyebilir. Boş bırakılırsa "Diğer" gözükür.</small>
         </label>
         <label>Tek Adet Fiyatı (₺) — Kargo Dahil
           <input type="number" id="productPrice" required min="0" step="0.01" />

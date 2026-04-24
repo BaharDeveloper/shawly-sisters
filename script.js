@@ -68,7 +68,80 @@ function migrateProducts(list) {
     }
     if (!Array.isArray(q.bundles)) q.bundles = [];
     if (!Array.isArray(q.variations)) q.variations = [];
+    if (!q.category) q.category = 'Diğer';
     return q;
+  });
+}
+
+// Kategori meta — emoji eşlemesi
+const CATEGORY_EMOJI = {
+  'Düğün Hediyelikleri': '💍',
+  'Nişan Hediyelikleri': '💎',
+  'Bebek Şekeri': '🍼',
+  'Doğum Günü': '🎂',
+  'Kına Gecesi': '🌹',
+  'Mezuniyet': '🎓',
+  'Söz Hediyelikleri': '💝',
+  'Özel Tasarım': '✨',
+  'Diğer': '🎁',
+};
+
+let activeCategory = 'all';
+
+function getCategoryCounts() {
+  const map = new Map();
+  for (const p of products) {
+    const c = p.category || 'Diğer';
+    map.set(c, (map.get(c) || 0) + 1);
+  }
+  return map;
+}
+
+function renderCategoryGrid() {
+  const wrap = document.getElementById('categoryGrid');
+  if (!wrap) return;
+  const counts = getCategoryCounts();
+  if (!counts.size) {
+    wrap.innerHTML = `<p class="empty-state" style="grid-column:1/-1;">Henüz ürün eklenmedi.</p>`;
+    return;
+  }
+  wrap.innerHTML = '';
+  for (const [name, count] of counts) {
+    const tile = document.createElement('a');
+    tile.className = 'category-tile';
+    tile.href = '#urunler';
+    tile.dataset.cat = name;
+    tile.innerHTML = `
+      <div class="category-tile-emoji">${CATEGORY_EMOJI[name] || '🎁'}</div>
+      <p class="category-tile-name"></p>
+      <span class="category-tile-count">${count} ürün</span>
+    `;
+    tile.querySelector('.category-tile-name').textContent = name;
+    tile.addEventListener('click', () => {
+      activeCategory = name;
+      renderCategoryFilter();
+      renderProducts();
+    });
+    wrap.appendChild(tile);
+  }
+}
+
+function renderCategoryFilter() {
+  const wrap = document.getElementById('categoryFilter');
+  if (!wrap) return;
+  const counts = getCategoryCounts();
+  if (!counts.size) { wrap.innerHTML = ''; return; }
+  let html = `<button class="cat-chip ${activeCategory === 'all' ? 'active' : ''}" data-cat="all">Tümü</button>`;
+  for (const [name, count] of counts) {
+    html += `<button class="cat-chip ${activeCategory === name ? 'active' : ''}" data-cat="${escapeAttr(name)}">${escapeAttr(name)} (${count})</button>`;
+  }
+  wrap.innerHTML = html;
+  wrap.querySelectorAll('.cat-chip').forEach(b => {
+    b.addEventListener('click', () => {
+      activeCategory = b.dataset.cat;
+      renderCategoryFilter();
+      renderProducts();
+    });
   });
 }
 
@@ -133,10 +206,14 @@ function renderProducts() {
   const empty = $('#emptyState');
   grid.innerHTML = '';
 
-  if (!products.length) { empty.hidden = false; return; }
+  if (!products.length) { empty.hidden = false; renderCategoryGrid(); renderCategoryFilter(); return; }
   empty.hidden = true;
 
-  for (const p of products) {
+  const filtered = activeCategory === 'all'
+    ? products
+    : products.filter(p => (p.category || 'Diğer') === activeCategory);
+
+  for (const p of filtered) {
     const card = document.createElement('article');
     card.className = 'product-card';
     const totalPrice = Number(p.price || 0);
@@ -166,6 +243,9 @@ function renderProducts() {
     card.querySelector('.product-name').textContent = p.name;
     grid.appendChild(card);
   }
+
+  renderCategoryGrid();
+  renderCategoryFilter();
 }
 
 // --- Sepet ---
@@ -535,6 +615,7 @@ function resetProductForm() {
   pendingVariations = [];
   $('#productId').value = '';
   $('#productName').value = '';
+  $('#productCategory').value = '';
   $('#productPrice').value = '';
   $('#productDesc').value = '';
   $('#productImage').value = '';
@@ -555,6 +636,7 @@ function fillProductForm(p) {
   pendingVariations = (p.variations || []).map(v => ({ name: v.name, options: [...(v.options || [])] }));
   $('#productId').value = p.id;
   $('#productName').value = p.name;
+  $('#productCategory').value = p.category || '';
   $('#productPrice').value = p.price;
   $('#productDesc').value = p.description || '';
   $('#descCount').textContent = (p.description || '').length;
@@ -730,6 +812,7 @@ async function handleProductSubmit(e) {
   e.preventDefault();
   if (!isAdmin()) { alert('Sadece yönetici ürün ekleyip düzenleyebilir.'); return; }
   const name = $('#productName').value.trim();
+  const category = ($('#productCategory').value.trim() || 'Diğer');
   const price = parseFloat($('#productPrice').value);
   const description = $('#productDesc').value.trim();
   const amazonUrl = $('#productAmazonUrl').value.trim();
@@ -762,12 +845,12 @@ async function handleProductSubmit(e) {
   if (editingId) {
     const idx = products.findIndex(p => p.id === editingId);
     if (idx !== -1) {
-      products[idx] = { ...products[idx], name, price, description, images, amazonUrl, bundles, variations };
+      products[idx] = { ...products[idx], name, category, price, description, images, amazonUrl, bundles, variations };
       delete products[idx].image;
     }
     toast('Ürün güncellendi');
   } else {
-    products.push({ id: uid(), name, price, description, images, amazonUrl, bundles, variations });
+    products.push({ id: uid(), name, category, price, description, images, amazonUrl, bundles, variations });
     toast('Ürün eklendi');
   }
   save(STORE.products, products);
@@ -1550,6 +1633,33 @@ if (saveGhTokenBtn) saveGhTokenBtn.addEventListener('click', async () => {
   closeModal('publishSetupModal');
   await pushProductsToGitHub(token);
 });
+
+// === Hero Slider ===
+(function initHeroSlider() {
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots = document.querySelectorAll('.hero-dot');
+  if (!slides.length) return;
+  let idx = 0;
+  let timer = null;
+
+  function show(i) {
+    idx = (i + slides.length) % slides.length;
+    slides.forEach((s, k) => s.classList.toggle('active', k === idx));
+    dots.forEach((d, k) => d.classList.toggle('active', k === idx));
+  }
+  function next() { show(idx + 1); }
+  function prev() { show(idx - 1); }
+  function start() { stop(); timer = setInterval(next, 6000); }
+  function stop() { if (timer) { clearInterval(timer); timer = null; } }
+
+  dots.forEach((d, k) => d.addEventListener('click', () => { show(k); start(); }));
+  const nextBtn = document.getElementById('heroNext');
+  const prevBtn = document.getElementById('heroPrev');
+  if (nextBtn) nextBtn.addEventListener('click', () => { next(); start(); });
+  if (prevBtn) prevBtn.addEventListener('click', () => { prev(); start(); });
+
+  start();
+})();
 
 // İlk yükleme
 $('#year').textContent = new Date().getFullYear();
