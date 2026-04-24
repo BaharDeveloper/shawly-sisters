@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shawly Sisters | Wedding Favors</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="brand">
+      <span class="brand-icon">🕯️</span>
+      <div>
+        <h1>Shawly Sisters</h1>
+        <p class="tagline">Shawly Sisters Wedding Favors</p>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="#urunler">Ürünler</a>
+      <a href="#hakkimda">Hakkımda</a>
+      <a href="#iletisim">İletişim</a>
+      <button id="cartBtn" class="icon-btn" aria-label="Sepetim">
+        🛒 Sepetim <span id="cartCount" class="badge">0</span>
+      </button>
+      <button id="ordersBtn" class="icon-btn ghost" aria-label="Siparişlerim" hidden>📦 Siparişlerim</button>
+      <button id="loginBtn" class="icon-btn ghost" aria-label="Giriş Yap">Giriş Yap</button>
+      <button id="registerBtn" class="icon-btn" aria-label="Kayıt Ol">Kayıt Ol</button>
+      <button id="userBtn" class="icon-btn ghost" aria-label="Hesap" hidden></button>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-inner">
+    <h2>Evine sıcaklık ve huzur taşı</h2>
+    <p>Doğal soya mumu, pamuk fitil ve özenle seçilmiş kokular. Her mum elimde, küçük partiler halinde dökülür.</p>
+    <a href="#urunler" class="btn primary">Ürünleri Keşfet</a>
+  </div>
+</section>
+
+<main class="container">
+  <section id="urunler" class="products-section">
+    <div class="section-head">
+      <h3>Ürünler</h3>
+      <p>Sepete ekle, kolayca sipariş ver.</p>
+    </div>
+    <div id="productGrid" class="product-grid"></div>
+    <p id="emptyState" class="empty-state" hidden>Henüz ürün eklenmedi. Yönetim panelinden ekleyebilirsin.</p>
+  </section>
+
+  <section id="hakkimda" class="about">
+    <h3>Hakkımda</h3>
+    <p>Merhaba, ben mum atölyesinin kurucusuyum. Her mumu sevgiyle ve doğal malzemelerle hazırlıyorum. Amacım evlerinize küçük bir huzur köşesi taşımak.</p>
+  </section>
+
+  <section id="iletisim" class="contact">
+    <h3>İletişim</h3>
+    <p>Sipariş ve sorularınız için bize hemen ulaşabilirsiniz.</p>
+    <div class="contact-grid">
+      <a href="mailto:shawlysisters@gmail.com" class="contact-card">
+        <span class="contact-icon">✉️</span>
+        <div>
+          <div class="contact-label">E-posta</div>
+          <div class="contact-value">shawlysisters@gmail.com</div>
+        </div>
+      </a>
+      <a href="https://wa.me/905364051682?text=Merhaba%2C%20Shawly%20Sisters%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" class="contact-card whatsapp">
+        <span class="contact-icon">💬</span>
+        <div>
+          <div class="contact-label">WhatsApp</div>
+          <div class="contact-value">+90 536 405 16 82</div>
+        </div>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>© <span id="year"></span> Shawly Sisters · Tüm hakları saklıdır.</p>
+    <p><a href="#" id="adminLink" class="admin-link">Yönetici Girişi</a></p>
+  </div>
+</footer>
+
+<!-- Sepet -->
+<aside id="cartPanel" class="panel" aria-hidden="true">
+  <div class="panel-head">
+    <h3>Sepetim</h3>
+    <button class="close-btn" data-close="cartPanel" aria-label="Kapat">×</button>
+  </div>
+  <div id="cartItems" class="cart-items"></div>
+  <div class="cart-foot">
+    <div class="checkout-row">
+      <div class="total-block">
+        <span class="total-label">Toplam</span>
+        <strong id="cartTotal">0,00 ₺</strong>
+      </div>
+      <button id="checkoutBtn" class="btn primary">Alışverişi Tamamla</button>
+    </div>
+  </div>
+</aside>
+
+<!-- Kullanıcı Giriş / Kayıt -->
+<div id="authModal" class="modal" aria-hidden="true">
+  <div class="modal-card">
+    <button class="close-btn" data-close="authModal" aria-label="Kapat">×</button>
+    <div class="tabs">
+      <button class="tab active" data-tab="login">Giriş Yap</button>
+      <button class="tab" data-tab="register">Kayıt Ol</button>
+    </div>
+
+    <form id="userLoginForm" class="tab-pane active" data-pane="login">
+      <h3>Hesabına Giriş Yap</h3>
+      <label>Kullanıcı adı veya e-posta
+        <input type="text" id="userLoginId" required />
+      </label>
+      <label>Şifre
+        <input type="password" id="userLoginPwd" required />
+      </label>
+      <button type="submit" class="btn primary block">Giriş Yap</button>
+      <p class="hint"><a href="#" id="forgotPwdLink">Şifremi unuttum</a></p>
+      <p id="userLoginError" class="error" hidden></p>
+    </form>
+
+    <form id="userRegisterForm" class="tab-pane" data-pane="register" hidden>
+      <h3>Yeni Hesap Oluştur</h3>
+      <label>Kullanıcı Adı
+        <input type="text" id="regUsername" required minlength="3" maxlength="30" />
+      </label>
+      <label>E-posta
+        <input type="email" id="regEmail" required />
+      </label>
+      <label>Telefon Numarası
+        <input type="tel" id="regPhone" required placeholder="05xx xxx xx xx" />
+      </label>
+      <label>Şifre
+        <input type="password" id="regPwd" required minlength="4" />
+      </label>
+      <button type="submit" class="btn primary block">Kayıt Ol</button>
+      <p id="userRegisterError" class="error" hidden></p>
+    </form>
+  </div>
+</div>
+
+<!-- Şifremi Unuttum -->
+<div id="forgotModal" class="modal" aria-hidden="true">
+  <div class="modal-card">
+    <button class="close-btn" data-close="forgotModal" aria-label="Kapat">×</button>
+
+    <div id="forgotStep1">
+      <h3>Şifremi Unuttum</h3>
+      <p class="muted">Kayıtlı e-posta adresini gir, sana 6 haneli bir doğrulama kodu göndereceğiz.</p>
+      <form id="forgotEmailForm">
+        <label>E-posta
+          <input type="email" id="forgotEmail" required />
+        </label>
+        <button type="submit" class="btn primary block">Kod Gönder</button>
+        <p id="forgotEmailError" class="error" hidden></p>
+      </form>
+    </div>
+
+    <div id="forgotStep2" hidden>
+      <h3>Yeni Şifre Belirle</h3>
+      <p class="muted">E-postana gönderilen 6 haneli kodu ve yeni şifreni gir.</p>
+      <form id="forgotResetForm">
+        <label>Doğrulama Kodu
+          <input type="text" id="resetCode" required maxlength="6" inputmode="numeric" />
+        </label>
+        <label>Yeni Şifre
+          <input type="password" id="resetNewPwd" required minlength="4" />
+        </label>
+        <label>Yeni Şifre (Tekrar)
+          <input type="password" id="resetNewPwd2" required minlength="4" />
+        </label>
+        <button type="submit" class="btn primary block">Şifreyi Güncelle</button>
+        <p id="forgotResetError" class="error" hidden></p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Hesap Menüsü -->
+<div id="accountModal" class="modal" aria-hidden="true">
+  <div class="modal-card">
+    <button class="close-btn" data-close="accountModal" aria-label="Kapat">×</button>
+    <h3>Hesabım</h3>
+    <div class="account-info">
+      <p><strong>Kullanıcı:</strong> <span id="accUsername"></span></p>
+      <p><strong>E-posta:</strong> <span id="accEmail"></span></p>
+      <p><strong>Telefon:</strong> <span id="accPhone"></span></p>
+    </div>
+    <button id="userLogoutBtn" class="btn ghost block">Çıkış Yap</button>
+  </div>
+</div>
+
+<!-- Ödeme / Kargo Modalı -->
+<div id="checkoutModal" class="modal" aria-hidden="true">
+  <div class="modal-card wide">
+    <button class="close-btn" data-close="checkoutModal" aria-label="Kapat">×</button>
+    <h3>Alışverişi Tamamla</h3>
+
+    <form id="checkoutForm">
+      <div class="form-grid">
+        <fieldset>
+          <legend>Teslimat Bilgileri</legend>
+          <label>Ad Soyad
+            <input type="text" id="coFullName" required />
+          </label>
+          <label>Telefon
+            <input type="tel" id="coPhone" required placeholder="05xx xxx xx xx" />
+          </label>
+          <label>E-posta
+            <input type="email" id="coEmail" required />
+          </label>
+          <label>Ev Adresi
+            <textarea id="coAddress" rows="3" required placeholder="Mahalle, sokak, bina, daire"></textarea>
+          </label>
+          <label>Şehir / İlçe
+            <input type="text" id="coCity" required />
+          </label>
+          <label>Posta Kodu
+            <input type="text" id="coZip" required maxlength="10" />
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Kart Bilgileri</legend>
+          <label>Kart Üzerindeki İsim
+            <input type="text" id="ccName" required />
+          </label>
+          <label>Kart Numarası
+            <input type="text" id="ccNumber" required inputmode="numeric" placeholder="1234 5678 9012 3456" maxlength="19" />
+          </label>
+          <div class="row-2">
+            <label>Son Kullanma (AA/YY)
+              <input type="text" id="ccExp" required placeholder="12/29" maxlength="5" />
+            </label>
+            <label>CVV
+              <input type="text" id="ccCvv" required inputmode="numeric" placeholder="123" maxlength="4" />
+            </label>
+          </div>
+          <p class="muted">Bu site demo amaçlıdır; gerçek bir ödeme sağlayıcısı bağlı değildir.</p>
+        </fieldset>
+      </div>
+
+      <div class="checkout-summary">
+        <h4>Sipariş Özeti</h4>
+        <div id="checkoutItems"></div>
+        <div class="checkout-row">
+          <div class="total-block">
+            <span class="total-label">Ödenecek Tutar</span>
+            <strong id="checkoutTotal">0,00 ₺</strong>
+          </div>
+          <button type="submit" id="finishOrderBtn" class="btn primary">Alışverişi Bitir</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Siparişlerim Modalı -->
+<div id="ordersModal" class="modal" aria-hidden="true">
+  <div class="modal-card wide">
+    <button class="close-btn" data-close="ordersModal" aria-label="Kapat">×</button>
+    <h3>Siparişlerim</h3>
+    <p class="muted">Siparişlerinin durumunu ve tahmini teslim tarihini buradan takip edebilirsin.</p>
+    <div id="ordersList" class="orders-list"></div>
+    <div class="help-box">
+      <p>Sipariş hakkında yardıma mı ihtiyacın var?</p>
+      <a id="helpBtn" class="btn primary" href="https://wa.me/905364051682?text=Merhaba%2C%20sipari%C5%9Fim%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener">💬 WhatsApp ile Yardım Al</a>
+    </div>
+  </div>
+</div>
+
+<!-- Sipariş Onay Modalı -->
+<div id="successModal" class="modal" aria-hidden="true">
+  <div class="modal-card">
+    <button class="close-btn" data-close="successModal" aria-label="Kapat">×</button>
+    <div class="success-icon">✓</div>
+    <h3>Siparişin Alındı!</h3>
+    <p id="successMsg" class="muted"></p>
+    <p class="muted">Sipariş bilgileri satıcıya iletildi. En kısa sürede kargolanacak.</p>
+    <button class="btn primary block" data-close="successModal">Tamam</button>
+  </div>
+</div>
+
+<!-- Yönetici Girişi (tek şifre) -->
+<div id="loginModal" class="modal" aria-hidden="true">
+  <div class="modal-card">
+    <button class="close-btn" data-close="loginModal" aria-label="Kapat">×</button>
+    <h3>Yönetici Girişi</h3>
+    <p class="muted">Ürünleri yönetmek için şifreni gir.</p>
+    <form id="loginForm">
+      <label>Şifre
+        <input type="password" id="loginPassword" required autocomplete="current-password" />
+      </label>
+      <button class="btn primary block" type="submit">Giriş Yap</button>
+      <p id="loginError" class="error" hidden></p>
+    </form>
+    <p class="hint" id="loginHint">İlk girişte istediğin şifreyi belirleyebilirsin (en az 4 karakter).</p>
+  </div>
+</div>
+
+<!-- Admin Paneli -->
+<div id="adminModal" class="modal" aria-hidden="true">
+  <div class="modal-card wide">
+    <button class="close-btn" data-close="adminModal" aria-label="Kapat">×</button>
+    <div class="admin-head">
+      <h3>Yönetim Paneli</h3>
+      <div class="admin-actions">
+        <button id="logoutBtn" class="btn ghost small">Çıkış</button>
+      </div>
+    </div>
+
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-atab="add">➕ Yeni Ürün Oluştur</button>
+      <button class="admin-tab" data-atab="manage">📋 Mevcut Ürünler</button>
+      <button class="admin-tab" data-atab="orders">📦 Siparişler</button>
+    </div>
+
+    <div class="admin-pane" data-apane="add">
+      <form id="productForm" class="product-form">
+        <input type="hidden" id="productId" />
+        <label>Ürün Adı
+          <input type="text" id="productName" required maxlength="80" />
+        </label>
+        <label>Fiyat (₺) — Kargo Dahil
+          <input type="number" id="productPrice" required min="0" step="0.01" />
+          <small class="muted">Buraya gireceğin fiyat müşteriye "Kargo Dahil Fiyat" olarak gösterilecek.</small>
+        </label>
+        <label>Açıklama
+          <textarea id="productDesc" rows="2" maxlength="200" placeholder="Kısa açıklama (opsiyonel)"></textarea>
+        </label>
+        <label>Görsel
+          <input type="file" id="productImage" accept="image/*" />
+          <small class="muted">Veya aşağıya görsel URL'si yapıştır.</small>
+          <input type="url" id="productImageUrl" placeholder="https://..." />
+        </label>
+        <div id="imagePreviewWrap" hidden>
+          <img id="imagePreview" alt="Önizleme" />
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn primary" id="saveProductBtn">Ürünü Ekle</button>
+          <button type="button" id="cancelEditBtn" class="btn ghost" hidden>İptal</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="admin-pane" data-apane="manage" hidden>
+      <h4 class="admin-list-title">Mevcut Ürünler</h4>
+      <p class="muted">Ürünleri sadece sen düzenleyip silebilirsin.</p>
+      <div id="adminProductList" class="admin-list"></div>
+    </div>
+
+    <div class="admin-pane" data-apane="orders" hidden>
+      <h4 class="admin-list-title">Gelen Siparişler</h4>
+      <div id="adminOrdersList" class="admin-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast" hidden></div>
+
+<script src="script.js"></script>
+</body>
+</html>
