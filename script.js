@@ -695,13 +695,17 @@ function closeCart() {
 }
 function exitCartToHome() {
   closeCart();
-  // Ürünler / alışveriş bölümüne kaydır
-  const target = document.getElementById('urunler');
-  if (target) {
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  } else {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+  // Body class değişimi ve panel transition'ı için iki frame bekle, sonra scroll yap.
+  // Sticky header'ın yüksekliği kadar offset bırakırız.
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    const target = document.getElementById('urunler');
+    if (!target) { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+    const headerEl = document.querySelector('.site-header');
+    const headerH = headerEl ? headerEl.offsetHeight : 70;
+    const rect = target.getBoundingClientRect();
+    const top = rect.top + window.pageYOffset - headerH - 10;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }));
 }
 
 // --- Checkout ---
