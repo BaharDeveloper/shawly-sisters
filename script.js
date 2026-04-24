@@ -77,8 +77,9 @@ async function syncPublishedProducts() {
     const res = await fetch('./products.json?t=' + Date.now(), { cache: 'no-store' });
     if (!res.ok) return;
     const published = migrateProducts(await res.json());
-    // Yerel ürünler boşsa veya admin değilsek yayınlanan listeyi kullan
-    if (!isAdmin() || products.length === 0) {
+    // SADECE yerel liste boşsa ve yayınlanmış liste doluysa onu kullan.
+    // Yerel ürünler ASLA otomatik silinmez/üzerine yazılmaz.
+    if (products.length === 0 && published.length > 0) {
       products = published;
       save(STORE.products, products);
       renderProducts();
