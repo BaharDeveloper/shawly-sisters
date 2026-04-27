@@ -4,3 +4,5 @@ Thumbs.db
 .vscode/
 .idea/
 .claude/
+.playwright-mcp/
+test-*.png
