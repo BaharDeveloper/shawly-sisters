@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://bahardeveloper.github.io/shawly-sisters/sitemap.xml

@@ -48,6 +48,9 @@ const I18N = {
     cat_mezuniyet: "Mezuniyet", cat_soz: "Söz Hediyelikleri",
     cat_ozel: "Özel Tasarım", cat_diger: "Diğer",
     var_renk: "Renk", var_koku: "Koku", var_desen: "Desen", var_folyo: "Folyo & Kutu",
+    auth_login_title: "Hesabına Giriş Yap", auth_register_title: "Yeni Hesap Oluştur",
+    forgot_title: "Şifremi Unuttum", forgot_reset_title: "Yeni Şifre Belirle",
+    account_title: "Hesabım", checkout_title: "Alışverişi Tamamla", orders_title: "Siparişlerim",
   },
   en: {
     nav_products: "Products", nav_about: "About Us", nav_contact: "Contact",
@@ -94,6 +97,9 @@ const I18N = {
     cat_mezuniyet: "Graduation", cat_soz: "Promise Gifts",
     cat_ozel: "Custom Design", cat_diger: "Other",
     var_renk: "Color", var_koku: "Scent", var_desen: "Pattern", var_folyo: "Foil & Box",
+    auth_login_title: "Sign In to Your Account", auth_register_title: "Create New Account",
+    forgot_title: "Forgot Password", forgot_reset_title: "Set New Password",
+    account_title: "My Account", checkout_title: "Complete Purchase", orders_title: "My Orders",
   },
   de: {
     nav_products: "Produkte", nav_about: "Über uns", nav_contact: "Kontakt",
@@ -140,6 +146,9 @@ const I18N = {
     cat_mezuniyet: "Abschluss", cat_soz: "Versprechensgeschenke",
     cat_ozel: "Individuelles Design", cat_diger: "Sonstiges",
     var_renk: "Farbe", var_koku: "Duft", var_desen: "Muster", var_folyo: "Folie & Box",
+    auth_login_title: "Bei Ihrem Konto anmelden", auth_register_title: "Neues Konto erstellen",
+    forgot_title: "Passwort vergessen", forgot_reset_title: "Neues Passwort festlegen",
+    account_title: "Mein Konto", checkout_title: "Kauf abschließen", orders_title: "Meine Bestellungen",
   },
   es: {
     nav_products: "Productos", nav_about: "Acerca de", nav_contact: "Contacto",
@@ -186,6 +195,9 @@ const I18N = {
     cat_mezuniyet: "Graduación", cat_soz: "Regalos de Promesa",
     cat_ozel: "Diseño Personalizado", cat_diger: "Otros",
     var_renk: "Color", var_koku: "Aroma", var_desen: "Patrón", var_folyo: "Folio y Caja",
+    auth_login_title: "Iniciar sesión en tu cuenta", auth_register_title: "Crear cuenta nueva",
+    forgot_title: "Olvidé mi contraseña", forgot_reset_title: "Establecer nueva contraseña",
+    account_title: "Mi cuenta", checkout_title: "Completar compra", orders_title: "Mis pedidos",
   },
 };
 
@@ -499,7 +511,7 @@ function renderProducts() {
     card.innerHTML = `
       <div class="product-img" data-detail="${p.id}" style="cursor:pointer;">
         ${main
-          ? `<img src="${escapeAttr(main)}" alt="${escapeAttr(displayName)}" />`
+          ? `<img src="${escapeAttr(main)}" alt="${escapeAttr(displayName)}" width="400" height="400" loading="lazy" decoding="async" />`
           : `<div class="placeholder">🕯️</div>`}
         ${countBadge}
       </div>
@@ -598,7 +610,7 @@ function renderCart() {
     row.className = 'cart-item';
     const cartImg = firstImage(p);
     row.innerHTML = `
-      ${cartImg ? `<img src="${escapeAttr(cartImg)}" alt="" />` : `<div style="width:56px;height:56px;display:flex;align-items:center;justify-content:center;background:var(--bg-soft);border-radius:10px;">🕯️</div>`}
+      ${cartImg ? `<img src="${escapeAttr(cartImg)}" alt="" width="56" height="56" loading="lazy" decoding="async" />` : `<div style="width:56px;height:56px;display:flex;align-items:center;justify-content:center;background:var(--bg-soft);border-radius:10px;">🕯️</div>`}
       <div>
         <div class="ci-name"></div>
         ${metaParts.length ? `<div class="cart-item-meta">${escapeAttr(metaParts.join(' · '))}</div>` : ''}
@@ -1007,7 +1019,7 @@ function renderAdminList() {
     const adminImg = firstImage(p);
     const imgs = imageList(p);
     row.innerHTML = `
-      ${adminImg ? `<img src="${escapeAttr(adminImg)}" alt="" />` : `<div style="width:56px;height:56px;background:var(--bg-soft);border-radius:8px;display:flex;align-items:center;justify-content:center;">🕯️</div>`}
+      ${adminImg ? `<img src="${escapeAttr(adminImg)}" alt="" width="56" height="56" loading="lazy" decoding="async" />` : `<div style="width:56px;height:56px;background:var(--bg-soft);border-radius:8px;display:flex;align-items:center;justify-content:center;">🕯️</div>`}
       <div>
         <div class="ai-name"></div>
         <div class="muted">Kargo Dahil Fiyat${imgs.length > 1 ? ` · 📷 ${imgs.length}` : ''}</div>

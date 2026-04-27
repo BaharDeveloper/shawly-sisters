@@ -1,0 +1,120 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Shawly Sisters anasayfa" [ref=e4] [cursor=pointer]:
+        - /url: "#"
+        - img "Shawly Sisters" [ref=e5]
+        - generic [ref=e6]: SHAWLY SISTERS
+      - navigation [ref=e7]:
+        - link "Products" [ref=e8] [cursor=pointer]:
+          - /url: "#urunler"
+        - link "About Us" [ref=e9] [cursor=pointer]:
+          - /url: "#hakkimda"
+        - link "Contact" [ref=e10] [cursor=pointer]:
+          - /url: "#iletisim"
+        - combobox "Language" [ref=e11] [cursor=pointer]:
+          - option "🇬🇧 EN" [selected]
+          - option "🇹🇷 TR"
+          - option "🇩🇪 DE"
+          - option "🇪🇸 ES"
+        - button "Sepetim" [ref=e12] [cursor=pointer]: 🛒 My Cart 0
+        - button "Giriş Yap" [ref=e13] [cursor=pointer]: Sign In
+        - button "Kayıt Ol" [ref=e14] [cursor=pointer]: Sign Up
+  - main [ref=e15]:
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - generic [ref=e18]: Products
+        - heading "Full Collection" [level=3] [ref=e19]
+        - paragraph [ref=e20]: Click any product to see details
+      - paragraph [ref=e21]: No products added yet.
+  - region "Tanıtım" [ref=e22]:
+    - generic [ref=e23]:
+      - generic [ref=e25]:
+        - generic [ref=e26]: Wedding Favors Collection
+        - heading "Share Your Happiness With Your Guests" [level=2] [ref=e27]
+        - paragraph [ref=e28]: Personalized wedding favors with every detail thoughtfully designed.
+        - link "Explore Categories" [ref=e29] [cursor=pointer]:
+          - /url: "#kategoriler"
+      - generic:
+        - generic:
+          - generic: Baby Shower & Birthday
+          - heading "Leave Sweet Memories" [level=2]
+          - paragraph: Baby shower favors, birthday gifts and more.
+          - link "See Products":
+            - /url: "#urunler"
+      - generic:
+        - generic:
+          - generic: Henna & Engagement Concept
+          - heading "Special Designs for Special Nights" [level=2]
+          - paragraph: Let's bring your dream concept to life together.
+          - link "Contact Us":
+            - /url: "#iletisim"
+    - generic [ref=e30]:
+      - button "1. tanıtım" [ref=e31] [cursor=pointer]
+      - button "2. tanıtım" [ref=e32] [cursor=pointer]
+      - button "3. tanıtım" [ref=e33] [cursor=pointer]
+    - button "Önceki" [ref=e34] [cursor=pointer]: ‹
+    - button "Sonraki" [ref=e35] [cursor=pointer]: ›
+  - main [ref=e36]:
+    - generic [ref=e37]:
+      - generic [ref=e38]:
+        - generic [ref=e39]: Collections
+        - heading "Shop by Category" [level=3] [ref=e40]
+        - paragraph [ref=e41]: Discover the perfect favor for your special moment
+      - paragraph [ref=e43]: Henüz ürün eklenmedi.
+    - generic [ref=e44]:
+      - generic [ref=e45]:
+        - generic [ref=e46]: ✨
+        - heading "Custom Design" [level=4] [ref=e47]
+        - paragraph [ref=e48]: Every product is handmade and customizable.
+      - generic [ref=e49]:
+        - generic [ref=e50]: 📦
+        - heading "Fast Shipping" [level=4] [ref=e51]
+        - paragraph [ref=e52]: At your door in approximately 3 business days.
+      - generic [ref=e53]:
+        - generic [ref=e54]: 💝
+        - heading "Elegant Packaging" [level=4] [ref=e55]
+        - paragraph [ref=e56]: Gift-ready, carefully packaged.
+      - generic [ref=e57]:
+        - generic [ref=e58]: ⭐
+        - heading "Amazon Seller" [level=4] [ref=e59]
+        - paragraph [ref=e60]: We are a verified Amazon seller, shop with confidence.
+    - generic [ref=e61]:
+      - heading "About Us" [level=3] [ref=e62]
+      - paragraph [ref=e63]: We are a brand selling wedding favors. We sell on Amazon and on our own website. We're with you on every special occasion.
+    - generic [ref=e64]:
+      - heading "Contact" [level=3] [ref=e65]
+      - paragraph [ref=e66]: Reach us directly for orders and questions.
+      - generic [ref=e67]:
+        - link "✉️ Email shawlysisters@gmail.com" [ref=e68] [cursor=pointer]:
+          - /url: mailto:shawlysisters@gmail.com
+          - generic [ref=e69]: ✉️
+          - generic [ref=e70]:
+            - generic [ref=e71]: Email
+            - generic [ref=e72]: shawlysisters@gmail.com
+        - link "💬 WhatsApp +90 536 405 16 82" [ref=e73] [cursor=pointer]:
+          - /url: https://wa.me/905364051682?text=Merhaba%2C%20Shawly%20Sisters%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum.
+          - generic [ref=e74]: 💬
+          - generic [ref=e75]:
+            - generic [ref=e76]: WhatsApp
+            - generic [ref=e77]: +90 536 405 16 82
+  - contentinfo [ref=e78]:
+    - generic [ref=e79]:
+      - paragraph [ref=e80]: © 2026 Shawly Sisters · All rights reserved.
+      - paragraph [ref=e81]:
+        - link "Admin Login" [ref=e82] [cursor=pointer]:
+          - /url: "#"
+  - complementary [ref=e83]:
+    - generic [ref=e84]:
+      - button [ref=e85] [cursor=pointer]: ←
+      - heading [level=3] [ref=e86]: My Cart
+    - paragraph [ref=e88]: Your cart is empty.
+    - generic [ref=e90]:
+      - generic [ref=e91]:
+        - generic [ref=e92]: Total
+        - strong [ref=e93]: $0.00
+      - button [ref=e94] [cursor=pointer]: Complete Purchase
+  - button "Sepetim" [ref=e95] [cursor=pointer]:
+    - generic [ref=e96]: 🛒
+    - generic [ref=e97]: My Cart
+    - generic [ref=e98]: "0"

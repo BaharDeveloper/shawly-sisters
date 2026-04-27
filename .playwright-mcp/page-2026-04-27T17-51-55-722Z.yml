@@ -1,0 +1,229 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Shawly Sisters anasayfa" [ref=e4] [cursor=pointer]:
+        - /url: "#"
+        - img "Shawly Sisters" [ref=e5]
+        - generic [ref=e6]: SHAWLY SISTERS
+      - navigation [ref=e7]:
+        - link "Products" [ref=e8] [cursor=pointer]:
+          - /url: "#urunler"
+        - link "About Us" [ref=e9] [cursor=pointer]:
+          - /url: "#hakkimda"
+        - link "Contact" [ref=e10] [cursor=pointer]:
+          - /url: "#iletisim"
+        - combobox "Language" [ref=e11] [cursor=pointer]:
+          - option "🇬🇧 EN" [selected]
+          - option "🇹🇷 TR"
+          - option "🇩🇪 DE"
+          - option "🇪🇸 ES"
+        - button "Sepetim" [ref=e12] [cursor=pointer]: 🛒 My Cart 1
+        - button "Siparişlerim" [ref=e359] [cursor=pointer]: 📦 My Orders
+        - button "Hesap" [ref=e360] [cursor=pointer]: 👤 testuser_pw
+  - main [ref=e15]:
+    - generic [ref=e16]:
+      - generic [ref=e17]:
+        - generic [ref=e18]: Products
+        - heading "Full Collection" [level=3] [ref=e19]
+        - paragraph [ref=e20]: Click any product to see details
+      - generic [ref=e99]:
+        - button "All" [ref=e100] [cursor=pointer]
+        - button "Wedding Favors (7)" [ref=e101] [cursor=pointer]
+        - button "Memorial Favors (1)" [ref=e102] [cursor=pointer]
+      - generic [ref=e103]:
+        - article [ref=e104]:
+          - generic [ref=e105] [cursor=pointer]:
+            - img "Personalized Pashmina Shawl" [ref=e106]
+            - generic [ref=e107]: 📷 5
+          - generic [ref=e108] [cursor=pointer]:
+            - heading "Personalized Pashmina Shawl" [level=4] [ref=e109]
+            - generic [ref=e110]:
+              - generic [ref=e111]:
+                - text: $5.99
+                - generic [ref=e112]: Shipping Included
+              - button "Add to Cart" [ref=e113]
+        - article [ref=e114]:
+          - generic [ref=e115] [cursor=pointer]:
+            - img "Colorful Natural Soap - Kraft Tag" [ref=e116]
+            - generic [ref=e117]: 📷 5
+          - generic [ref=e118] [cursor=pointer]:
+            - heading "Colorful Natural Soap - Kraft Tag" [level=4] [ref=e119]
+            - generic [ref=e120]:
+              - generic [ref=e121]:
+                - text: $2.49
+                - generic [ref=e122]: Shipping Included
+              - button "Add to Cart" [ref=e123]
+        - article [ref=e124]:
+          - generic [ref=e125] [cursor=pointer]:
+            - img "Scalloped Edge Soap - Kraft Tag" [ref=e126]
+            - generic [ref=e127]: 📷 4
+          - generic [ref=e128] [cursor=pointer]:
+            - heading "Scalloped Edge Soap - Kraft Tag" [level=4] [ref=e129]
+            - generic [ref=e130]:
+              - generic [ref=e131]:
+                - text: $1.89
+                - generic [ref=e132]: Shipping Included
+              - button "Add to Cart" [ref=e133]
+        - article [ref=e134]:
+          - generic [ref=e135] [cursor=pointer]:
+            - img "Cylinder Natural Candle - Floral Decoration" [ref=e136]
+            - generic [ref=e137]: 📷 5
+          - generic [ref=e138] [cursor=pointer]:
+            - heading "Cylinder Natural Candle - Floral Decoration" [level=4] [ref=e139]
+            - generic [ref=e140]:
+              - generic [ref=e141]:
+                - text: $2.50
+                - generic [ref=e142]: Shipping Included
+              - button "Add to Cart" [ref=e143]
+        - article [ref=e144]:
+          - generic [ref=e145] [cursor=pointer]:
+            - img "Handmade Wooden Tealight Holder - Wedding" [ref=e146]
+            - generic [ref=e147]: 📷 4
+          - generic [ref=e148] [cursor=pointer]:
+            - heading "Handmade Wooden Tealight Holder - Wedding" [level=4] [ref=e149]
+            - generic [ref=e150]:
+              - generic [ref=e151]:
+                - text: $2.79
+                - generic [ref=e152]: Shipping Included
+              - button "Add to Cart" [ref=e153]
+        - article [ref=e154]:
+          - generic [ref=e155] [cursor=pointer]:
+            - img "Floral Wedding Fan" [ref=e156]
+            - generic [ref=e157]: 📷 4
+          - generic [ref=e158] [cursor=pointer]:
+            - heading "Floral Wedding Fan" [level=4] [ref=e159]
+            - generic [ref=e160]:
+              - generic [ref=e161]:
+                - text: $2.49
+                - generic [ref=e162]: Shipping Included
+              - button "Add to Cart" [ref=e163]
+        - article [ref=e164]:
+          - generic [ref=e165] [cursor=pointer]:
+            - img "Personalized Chocolate - Keepsake Tin" [ref=e166]
+            - generic [ref=e167]: 📷 4
+          - generic [ref=e168] [cursor=pointer]:
+            - heading "Personalized Chocolate - Keepsake Tin" [level=4] [ref=e169]
+            - generic [ref=e170]:
+              - generic [ref=e171]:
+                - text: $0.00
+                - generic [ref=e172]: Shipping Included
+              - button "Add to Cart" [ref=e173]
+        - article [ref=e174]:
+          - generic [ref=e175] [cursor=pointer]:
+            - img "Memorial Wooden Candle Holder" [ref=e176]
+            - generic [ref=e177]: 📷 4
+          - generic [ref=e178] [cursor=pointer]:
+            - heading "Memorial Wooden Candle Holder" [level=4] [ref=e179]
+            - generic [ref=e180]:
+              - generic [ref=e181]:
+                - text: $2.50
+                - generic [ref=e182]: Shipping Included
+              - button "Add to Cart" [ref=e183]
+  - region "Tanıtım" [ref=e22]:
+    - generic [ref=e23]:
+      - generic:
+        - generic:
+          - generic: Wedding Favors Collection
+          - heading "Share Your Happiness With Your Guests" [level=2]
+          - paragraph: Personalized wedding favors with every detail thoughtfully designed.
+          - link "Explore Categories":
+            - /url: "#kategoriler"
+      - generic:
+        - generic:
+          - generic: Baby Shower & Birthday
+          - heading "Leave Sweet Memories" [level=2]
+          - paragraph: Baby shower favors, birthday gifts and more.
+          - link "See Products":
+            - /url: "#urunler"
+      - generic [ref=e278]:
+        - generic [ref=e279]: Henna & Engagement Concept
+        - heading "Special Designs for Special Nights" [level=2] [ref=e280]
+        - paragraph [ref=e281]: Let's bring your dream concept to life together.
+        - link "Contact Us" [ref=e282] [cursor=pointer]:
+          - /url: "#iletisim"
+    - generic [ref=e30]:
+      - button "1. tanıtım" [ref=e31] [cursor=pointer]
+      - button "2. tanıtım" [ref=e32] [cursor=pointer]
+      - button "3. tanıtım" [ref=e33] [cursor=pointer]
+    - button "Önceki" [ref=e34] [cursor=pointer]: ‹
+    - button "Sonraki" [ref=e35] [cursor=pointer]: ›
+  - main [ref=e36]:
+    - generic [ref=e37]:
+      - generic [ref=e38]:
+        - generic [ref=e39]: Collections
+        - heading "Shop by Category" [level=3] [ref=e40]
+        - paragraph [ref=e41]: Discover the perfect favor for your special moment
+      - generic [ref=e42]:
+        - link "💍 Wedding Favors 7 products" [ref=e190] [cursor=pointer]:
+          - /url: "#urunler"
+          - generic [ref=e191]: 💍
+          - paragraph [ref=e192]: Wedding Favors
+          - generic [ref=e193]: 7 products
+        - link "🕊️ Memorial Favors 1 products" [ref=e194] [cursor=pointer]:
+          - /url: "#urunler"
+          - generic [ref=e195]: 🕊️
+          - paragraph [ref=e196]: Memorial Favors
+          - generic [ref=e197]: 1 products
+    - generic [ref=e44]:
+      - generic [ref=e45]:
+        - generic [ref=e46]: ✨
+        - heading "Custom Design" [level=4] [ref=e47]
+        - paragraph [ref=e48]: Every product is handmade and customizable.
+      - generic [ref=e49]:
+        - generic [ref=e50]: 📦
+        - heading "Fast Shipping" [level=4] [ref=e51]
+        - paragraph [ref=e52]: At your door in approximately 3 business days.
+      - generic [ref=e53]:
+        - generic [ref=e54]: 💝
+        - heading "Elegant Packaging" [level=4] [ref=e55]
+        - paragraph [ref=e56]: Gift-ready, carefully packaged.
+      - generic [ref=e57]:
+        - generic [ref=e58]: ⭐
+        - heading "Amazon Seller" [level=4] [ref=e59]
+        - paragraph [ref=e60]: We are a verified Amazon seller, shop with confidence.
+    - generic [ref=e61]:
+      - heading "About Us" [level=3] [ref=e62]
+      - paragraph [ref=e63]: We are a brand selling wedding favors. We sell on Amazon and on our own website. We're with you on every special occasion.
+    - generic [ref=e64]:
+      - heading "Contact" [level=3] [ref=e65]
+      - paragraph [ref=e66]: Reach us directly for orders and questions.
+      - generic [ref=e67]:
+        - link "✉️ Email shawlysisters@gmail.com" [ref=e68] [cursor=pointer]:
+          - /url: mailto:shawlysisters@gmail.com
+          - generic [ref=e69]: ✉️
+          - generic [ref=e70]:
+            - generic [ref=e71]: Email
+            - generic [ref=e72]: shawlysisters@gmail.com
+        - link "💬 WhatsApp +90 536 405 16 82" [ref=e73] [cursor=pointer]:
+          - /url: https://wa.me/905364051682?text=Merhaba%2C%20Shawly%20Sisters%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum.
+          - generic [ref=e74]: 💬
+          - generic [ref=e75]:
+            - generic [ref=e76]: WhatsApp
+            - generic [ref=e77]: +90 536 405 16 82
+  - contentinfo [ref=e78]:
+    - generic [ref=e79]:
+      - paragraph [ref=e80]: © 2026 Shawly Sisters · All rights reserved.
+      - paragraph
+  - complementary [ref=e83]:
+    - generic [ref=e84]:
+      - button [ref=e85] [cursor=pointer]: ←
+      - heading [level=3] [ref=e86]: My Cart
+    - generic [ref=e331]:
+      - generic [ref=e332]:
+        - generic [ref=e333]: Personalized Pashmina Shawl
+        - generic [ref=e334]: "25 Adet (Bulk) · Renk: Pink"
+        - generic [ref=e335]: $119.99 (kargo dahil)
+        - generic [ref=e336]:
+          - button [ref=e337] [cursor=pointer]: −
+          - generic [ref=e338]: "1"
+          - button [ref=e339] [cursor=pointer]: +
+      - button [ref=e340] [cursor=pointer]: Sil
+    - generic [ref=e90]:
+      - generic [ref=e91]:
+        - generic [ref=e92]: Total
+        - strong [ref=e93]: $119.99
+      - button [ref=e94] [cursor=pointer]: Complete Purchase
+  - button "Sepetim" [ref=e95] [cursor=pointer]:
+    - generic [ref=e96]: 🛒
+    - generic [ref=e97]: My Cart
+    - generic [ref=e98]: "1"
